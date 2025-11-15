@@ -1,0 +1,743 @@
+.navbase {
+  position: relative; /* establishes a reference for the arrow */
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  position: fixed;   
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.arrow-container-navbar {
+  position: fixed;
+}
+
+.down-arrow {
+  display: none;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 320px;
+  background: linear-gradient(135deg, #4caf50, #81c784); /* gradient for a polished look */
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: slideIn 0.4s ease-out, fadeOut 0.3s ease-in 3s forwards; /* auto fade-out after 3s */
+}
+
+.notification span {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+/* optional close button inside notification */
+.notification button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+.home-links {   
+  display: flex;
+  flex-flow: row nowrap ;
+  gap: 3rem;
+}
+
+.logo {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    flex-grow: 0;
+    padding-left: 1rem;
+}
+
+.logo img{
+    height: 80px; 
+    width: 80px;
+    color: #fff;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center all items */
+  gap: 3.7rem;               /* space between links */
+  flex-wrap: nowrap;          /* wrap if screen is small */
+}
+
+/* Each link container */
+.nav-links > div {
+  position: relative; 
+}
+
+/* Admin/User button */
+#admin {
+  flex-grow: 0;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: row;
+  margin: 0
+}
+
+#admin button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#admin img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;      
+  object-fit: cover;       
+  background-color: transparent; 
+  display: block;          
+}
+
+/* Links and spans styling */
+.nav-links a,
+.nav-links span {
+  color: #f9f9f9; /* preserves your text color */
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 800;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0; 
+  position: relative; /* needed for ::after underline effect */
+}
+
+/* Underline hover effect */
+.nav-links a::after,
+.nav-links span::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 5px;
+  background-color: #0c2ae7; /* preserves your underline color */
+  transition: width 0.3s ease; 
+}
+
+/* Hover state */
+.nav-links a:hover,
+.nav-links span:hover {
+  color: #eaff00; 
+}
+
+.nav-links a:hover::after,
+.nav-links span:hover::after {
+  width: 100%; 
+}
+
+/* Active state */
+.nav-links a.active,
+.nav-links span.active {
+  color: #eaff00; 
+}
+
+.nav-links a.active::after,
+.nav-links span.active::after {
+  width: 100%;             
+  background-color: #0c2ae7; 
+}
+
+.admin-status,.user-status {
+  background-color: #0c2ae7; /* Bootstrap primary blue */
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px; /* exactly 2px */
+  display: inline-block; /* keeps it compact */
+}
+
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.contact-header p {
+  margin: 5px 0;
+}
+
+.contact-header a {
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact-header a:hover {
+  color: #FFD700;
+}
+
+/* Contact Button */
+.contact-btn {
+  text-align: center;
+  margin: 30px;
+}
+.contact-btn button {
+  padding: 12px 24px;
+  background: #1E3A8A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.contact-btn button:hover {
+  background: #FFD700;
+  color: #000;
+}
+
+/* Modal Background */
+.contact-modal {
+  display: flex;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+/* Modal Content */
+.contact-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.contact-content label {
+  color: #000;  /* black text */
+  font-weight: 600; /* optional: makes it a bit bolder */
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Form Styling */
+.contact-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-content input,
+.contact-content textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.send-btn {
+  background: gold;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.send-btn:hover {
+  background: rgb(210, 179, 0);
+  color: #000;
+}
+
+/*Admin*/
+.closeAdmin,.closeUser {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: goldenrod; /* gold */
+  cursor: pointer;
+  background-color: rgba(0, 0, 139, 0.7); /* semi-transparent blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000; /* make sure it's above modal */
+}
+
+.closeAdmin:hover,.closeUser:hover {
+  color: goldenrod;
+  background-color: rgb(2, 2, 226);
+  transition: 0.3s ease;
+  transform: scale(1.1);
+}
+
+
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.login-modal {
+  background: linear-gradient(135deg, #ffffff 90%, rgba(0,0,0,0.05));
+  padding: 30px;
+  border-radius: 12px;
+  width: 350px;
+  height: 350px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  animation: slideUp 0.4s ease-in-out;
+  text-align: center;
+}
+
+.modal-header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.modal-header h2 {
+  margin: 0 0 20px 0;
+  color: #FFD700; /* Gold */
+}
+
+.error-text {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.login-modal input {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  padding: 12px;
+  border: 2px solid #007bff; /* Blue */
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-modal input:focus {
+  border-color: #FFD700; /* Gold */
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.login-btn,.logout-btn {
+  background: #0173ed; /* Blue */
+  color: white;
+  padding: 12px;
+  border: none;
+  width: 100%;
+  height: 40px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 12px rgba(0, 123, 255, 0.4);
+
+}
+.logout-btn{
+  margin-top: 70px;
+}
+
+.login-btn:hover,.logout-btn:hover {
+  background: #FFD700; /* Gold */
+  color: #0056b3; /* Dark Blue text */
+  transform: scale(1.05);
+}
+/*Close warning*/
+.warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.warning-box {
+  background: white;
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.warning-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+  gap: 2px;
+}
+
+.warning-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.warning-actions button:first-child {
+  background: #ee4c3a;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.warning-actions button:first-child:hover {
+  background: #d43f2d; /* darker red */
+}
+
+.warning-actions button:last-child {
+  background: #bdc3c7;
+  transition: background 0.3s ease;
+}
+
+.warning-actions button:last-child:hover {
+  background: #a6acaf; /* darker gray */
+}
+
+.hamburger-btn {
+  position: relative;
+  z-index: 2000;
+  background: none;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.hamburger-icon {
+  width: 28px;
+  height: 28px;
+  filter: invert(1); /* makes it white if the navbar is dark */
+  transition: transform 0.3s ease;
+}
+
+/* Optional: animate rotation when menu is open */
+.hamburger-icon.rotate {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+  z-index: 9999;
+}
+
+/* Sidebar base */
+.navigation-sidebar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: -350px;          /* hidden initially */
+  width: 250px;
+  height: 100vh;
+  background: rgba(30, 30, 30, 0.95);
+  color: #fff;
+  padding: 2rem 1rem;
+  flex-direction: column;
+  gap: 2rem;
+  transition: left 0.3s ease;
+  z-index: 2000;
+  padding-top: 100px;
+}
+
+/* Sidebar visible */
+.navigation-sidebar.sidebar-open {
+  left: 0;
+}
+
+.sidebar-links button {
+  width: 100%;                 /* full width */         /* slightly rounded corners */
+  background-color: transparent;   /* deep blue */
+  color: #fff;                  /* text white */
+  border: none;                 /* no border */
+  padding: 10px 15px;           /* comfortable padding */
+  font-size: 1rem;              /* readable font size */
+  cursor: pointer;              /* pointer on hover */
+  transition: background 0.3s, transform 0.2s;
+}
+/* Sidebar items */
+.navigation-sidebar .sidebar-links{
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #fff;
+  padding: 0.5rem 0;
+  transition: color 0.3s;
+}
+
+.navigation-sidebar .sidebar-links button:hover {
+  background: goldenrod;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile screens: up to 600px */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0.5rem 0.3rem;
+    margin-top: -65px;
+    transition: margin-top 0.5s ease-in-out;
+  }
+
+  .navbar.navbar-down {
+    margin-top: 0;
+  }
+
+  /* Arrow container */
+  .arrow-container-navbar {
+    position: fixed;
+    top: calc(35px + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none;
+    display: none;
+  }
+
+  /* Show arrow when hovering navbar or arrow itself */
+  .navbar:hover + .arrow-container-navbar,
+  .arrow-container-navbar:hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+  }
+
+  /* Arrow styles */
+  .arrow-container-navbar {
+    pointer-events: none; /* container ignores clicks */
+  }
+  .arrow-container-navbar .down-arrow {
+    background: none;
+    display: flex;
+    border: none;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #FFD700;
+    transition: transform 0.4s ease, color 0.3s ease;
+    pointer-events: auto;
+  }
+
+  /* Rotate arrow up when navbar is down, keep hover working */
+  .arrow-container-navbar .down-arrow.arrow-up {
+    transform: rotate(180deg);
+  }
+
+  /* Hover: translateY + rotation (if up) */
+  .arrow-container-navbar .down-arrow:hover {
+    color: #eaff00;
+  }
+
+  /* Using a special rule for rotated hover */
+  .arrow-container-navbar .down-arrow.arrow-up:hover {
+    transform: rotate(180deg) translateY(5px);
+  }
+
+  .arrow-container-navbar .down-arrow:not(.arrow-up):hover {
+    transform: translateY(5px);
+  }
+
+  .home-links {
+    margin-top: -15px;
+    display: flex;
+    justify-content: center; /* center links */
+    flex-wrap: wrap;         /* wrap if needed */
+    gap: clamp(1.2rem, 5vw, 3rem);             /* spacing between links */
+    width: 100%;             /* forces second line */
+  }
+
+  /* Move logo and admin to top row */
+  .logo,
+  #admin {
+    order: -1; 
+    padding: 5px 5px;
+  }
+
+  .navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 5rem;
+  }
+
+  .logo img {
+    height: 45px;
+    width: 45px;
+  }
+
+  #admin img {
+    height: 40px;
+    width: 40px;
+    margin-left: -5px ;
+  }
+
+  /* Nav links row below logo/admin */
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between ;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    order: 1; /* ensure it stays below the top row */
+  }
+
+  .nav-links a,
+  .nav-links span {
+    margin-top: 10px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2em;
+    max-width: 60px;
+    display: inline-block;
+    word-break: break-word;
+  }
+
+  .nav-links a::after,
+  .nav-links span::after {
+    height: 4px;
+    bottom: 3px;
+  }
+
+  .contact-content {
+    width: 80%;
+  }
+}
+
+/* Small tablets: 601px – 767.98px */
+@media (min-width: 601px) and (max-width: 767.98px){
+  .navbar {
+    height: auto;
+    justify-content: space-between;
+    padding: 0.3rem 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .logo img {
+    height: 50px; 
+    width: 50px;
+    margin-left: -1rem;
+  }
+
+  #admin img {
+    height: 25px;
+    width: 25px;
+    margin-right: -3rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+    padding: 0.2rem 0.3rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-links a,
+  .nav-links span {
+    font-size: 12px;
+    display: inline-block;
+    text-align: center;
+    line-height: 1.2em;
+    max-width: 80px;       /* slightly larger for tablets */
+    word-break: break-word;
+  }
+
+  .nav-links a::after,
+  .nav-links span::after {
+    height: 4px;
+    bottom: 3px;
+  }
+
+  .contact-content {
+    width: 80%;
+  }
+}
+
+

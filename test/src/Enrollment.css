@@ -1,0 +1,192 @@
+.form-container {
+  position: fixed;          /* float above everything */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* semi-transparent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;            
+}
+
+/* The form itself inside the modal */
+.form-container form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;          
+  height: 500px;          
+  overflow-y: auto;          
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  scrollbar-width: none;     
+  -ms-overflow-style: none; 
+}
+
+.form-container form::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
+}
+
+/* Close button */
+.form-container .close-btn {
+  position: absolute; 
+  top: 5px;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #656565;
+  cursor: pointer;
+  z-index: 10000; /* above everything */
+}
+.close-btn:hover {
+  color: #951f1f;
+}
+
+form h1 {
+  font-size: 20px;
+  margin: 0 0 10px;
+  text-align: center;
+  color: black;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: black;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.form-nav {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-nav button {
+  width: 48%;
+}
+
+/* Progress bar container */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Steps (circles) */
+.progress-bar .step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ccc;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Active step */
+.progress-bar .step.active {
+  background: goldenrod;
+}
+.progress-bar .step.completed {
+  background: #0078D7; /* blue */
+}
+
+/* Lines between steps */
+.progress-bar .line {
+  flex: 1;
+  height: 4px;
+  background: #ccc;
+  margin: 0 8px;
+  transition: 0.3s;
+}
+
+.progress-bar .line.active {
+  background: #0078D7;
+}
+.progress-bar .line.completed {
+  background: #0078D7;
+}
+
+/* Default text color inside step */
+.progress-bar .step {
+  color: white;
+}
+
+/* Make the ✓ green */
+.progress-bar .step .check {
+  color: #04f23c; /* bootstrap green, can use "green" */
+  font-weight: bold;
+}
+
+
+.tuition-details {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f0f8ff;
+  border: 2px solid #0078d7;
+  border-radius: 8px;
+  color: #000;
+}
+
+.tuition-details h3 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.fee-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-weight: 500;
+}
+
+.fee-row.total {
+  font-weight: bold;
+  border-top: 2px solid #0078d7;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+/* Buttons only in the second form */
+.form-container button {
+  margin-top: auto;
+  width: 100%;
+  padding: 12px;
+  background: #0078D7;
+  color: white;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.form-container button:hover {
+  background: #005fa3;
+}
+
+
+@media (max-width: 600px) {
+  .form-container form {
+    width: 80%;
+  }
+}

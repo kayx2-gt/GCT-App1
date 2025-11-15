@@ -1,0 +1,218 @@
+.searchbar-wrapper {
+  position: relative; /* important for absolute children */
+}
+
+.search-controls {
+color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: end;
+  margin-top: -9%;
+  padding: 10px 10px;
+}
+
+.search-controls input,
+.search-controls select {
+  width: 450px;      
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.search-controls select {
+  width: 125px;
+}
+.search-controls h2 {
+    margin-bottom: 0;
+}
+
+.search-results-cards {
+  position: absolute;
+  width: 450px;
+  top: 140px;
+  max-height: 180px; 
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;    
+  overflow-y: hidden;  
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
+  scroll-behavior: smooth; 
+  justify-content: flex-start; 
+  direction: ltr;
+}
+
+.search-card {
+  flex: 0 0 auto;     /* do not shrink, fixed width */
+  width: 100px;
+  height: 150px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.search-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+
+.card-cover {
+  width: 80px;       /* smaller width */
+  height: 100px;      /* smaller height */
+  object-fit: cover;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.card-studentphoto {
+  width: 80px;       /* smaller width */
+  height: 80px;      /* smaller height */
+  object-fit: cover;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.card-info {
+  display: flex;
+  margin-top: 4px;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;           
+}
+
+.card-title {
+  font-weight: 600;
+  color: #555;
+  margin: 1px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 80px; 
+}
+
+.card-fullname {
+  color: #555;
+  text-align: center;
+  font-size: 10px;
+}
+
+.card-author,
+.card-id {
+  text-align: left;
+  margin: 1px 0;
+  color: #555;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.preview-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  height: 450px;
+  text-align: center;
+}
+
+.preview-studentphoto {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.preview-cover {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.preview-title {
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  color: #333;
+  word-break: break-word;
+}
+
+.preview-author,
+.preview-id, .preview-info p {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.preview-info {
+  margin-top: 15px;
+  text-align: left;
+  padding: 10px 12px;
+  overflow: hidden;        /* prevent spilling */
+  word-wrap: break-word;   /* older support */
+  overflow-wrap: anywhere; /* modern fix for long strings */
+}
+
+.preview-description {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #333;
+  display: block;
+  white-space: normal;     /* allow wrapping */
+  overflow-wrap: break-word; /* wrap even long words */
+  word-break: break-word;
+}
+
+.preview-description span {
+  text-indent: 20px;
+  margin-top: 5px;
+  display: block;
+}
+
+
+
+@media (max-width: 600px) {
+    .search-results-cards {
+        width: 95%;
+    }
+
+    .search-controls input {
+    width: 100%;      
+    }
+}
+
