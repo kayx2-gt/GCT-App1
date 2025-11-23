@@ -170,6 +170,13 @@ const librarydb = new sqlite3.Database("library.db", (err) => {
   else console.log("Connected to library.db");
 });
 
+librarydb.serialize(() => {
+  librarydb.run(`ATTACH DATABASE 'user.db' AS userdb`, (err) => {
+    if (err) console.error("❌ Failed to attach user database:", err.message);
+    else console.log("✅ userdb attached to librarydb");
+  });
+});
+
 // Create books table
 librarydb.run(`
   CREATE TABLE IF NOT EXISTS books (
@@ -181,6 +188,14 @@ librarydb.run(`
     quantity_in_stock INTEGER DEFAULT 1,
     cover_image TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
+librarydb.run(`
+  CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name TEXT NOT NULL,
+    email TEXT
   )
 `);
 
@@ -335,7 +350,9 @@ borroweddb.run(`
     book_id INTEGER,
     borrow_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     return_date TIMESTAMP,
-    status TEXT DEFAULT 'Borrowed'
+    status TEXT DEFAULT 'Pending',        -- Pending | Approved | Borrowed | Returned | Denied | Violated
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `);
 
@@ -373,7 +390,10 @@ app.post("/api/borrow/:id", (req, res) => {
 
           // Step 3: Log the borrowed book in borrowed.db
           borroweddb.run(
-            "INSERT INTO borrowed_books (student_id, book_id) VALUES (?, ?)",
+            `INSERT INTO borrowed_books 
+            (student_id, book_id, created_at, updated_at) 
+            VALUES (?, ?, datetime('now'), datetime('now'))
+            `,
             [studentId || null, id],
             (logErr) => {
               if (logErr) {
@@ -552,7 +572,6 @@ app.post("/api/borrow/request/:bookId", (req, res) => {
 });
 
 // ✅ Update borrow status (Approve, Deny, etc.)
-// ✅ Update borrow status (Approve, Deny, etc.)
 app.post("/api/borrow/update-status/:recordId", (req, res) => {
   const { recordId } = req.params;
   const { status } = req.body;
@@ -604,6 +623,34 @@ app.post("/api/borrow/update-status/:recordId", (req, res) => {
   });
 });
 
+app.get("/api/borrow/all", (req, res) => {
+  const query = `
+    SELECT 
+      b.id,
+      b.student_id,
+      COALESCE(s.fullname, 'Unknown Student') AS student_name,
+      b.book_id,
+      COALESCE(bk.title, 'Unknown Book') AS book_title,
+      b.status,
+      b.borrow_date,
+      b.return_date,
+      datetime(b.borrow_date, '+7 days') AS due_date,
+      b.created_at
+    FROM borrowed_books b
+    LEFT JOIN books bk ON b.book_id = bk.id
+    LEFT JOIN userdb.students s ON b.student_id = s.id
+    ORDER BY b.created_at DESC
+  `;
+
+  borroweddb.all(query, [], (err, rows) => {
+    if (err) {
+      console.error("Borrow fetch error:", err);
+      return res.json([]);
+    }
+
+    res.json(rows);
+  });
+});
 
 // ===============================
 // AdminAccount

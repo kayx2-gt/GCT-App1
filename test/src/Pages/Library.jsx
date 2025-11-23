@@ -150,27 +150,34 @@ export default function Library() {
               {feedbackMessage && <div className="borrow-feedback">{feedbackMessage}</div>}
 
               {/* Active Requests */}
-              {studentRequests.filter(req => req.status === "Pending Approval" || req.status === "Borrowed").length > 0 ? (
-                <div className="request-list">
-                  {studentRequests.filter(req => req.status === "Pending Approval" || req.status === "Borrowed")
-                    .map(req => (
-                      <div key={req.id} className="request-item">
-                        <div className="request-cover">
-                          {req.cover_image || req.book?.cover_image
-                            ? <img src={`${API_URL}/uploads/${req.cover_image || req.book.cover_image}`} alt={req.book_title || req.book?.title || "Untitled"} />
-                            : <div className="no-cover">No Cover</div>}
-                        </div>
-                        <div className="request-details">
-                          <p className="request-title">{req.book_title || req.book?.title || "Untitled"}</p>
-                          <div className="status-and-message">
-                            <p className={`request-status status-${req.status?.toLowerCase().replace(/\s+/g, "-")}`}>{req.status}</p>
-                            {req.message && <p className="request-message">{req.message}</p>}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+              {studentRequests.filter(req => 
+    req.status === "Pending Approval" || 
+    req.status === "Claimable" || 
+    req.status === "Borrowed"
+).length > 0 ? (
+    <div className="request-list">
+        {studentRequests.filter(req => 
+            req.status === "Pending Approval" || 
+            req.status === "Claimable" || 
+            req.status === "Borrowed"
+        ).map(req => (
+            <div key={req.id} className="request-item">
+                <div className="request-cover">
+                    {req.cover_image || req.book?.cover_image
+                        ? <img src={`${API_URL}/uploads/${req.cover_image || req.book.cover_image}`} alt={req.book_title || req.book?.title || "Untitled"} />
+                        : <div className="no-cover">No Cover</div>}
                 </div>
-              ) : <p className="empty-status">No active requests.</p>}
+                <div className="request-details">
+                    <p className="request-title">{req.book_title || req.book?.title || "Untitled"}</p>
+                    <div className="status-and-message">
+                        <p className={`request-status status-${req.status?.toLowerCase().replace(/\s+/g, "-")}`}>{req.status}</p>
+                        {req.message && <p className="request-message">{req.message}</p>}
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+) : <p className="empty-status">No active requests.</p>}
 
               {/* Borrow History */}
               <h3 style={{ marginTop: "20px" }}>📚 Borrow History</h3>

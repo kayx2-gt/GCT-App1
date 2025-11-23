@@ -147,27 +147,98 @@ textarea {
 /* Table wrapper for responsiveness */
 .table-wrapper {
   height: 500px;
+  margin-top: 50px;
   overflow-y: auto;       /* vertical scroll */
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+.borrow-panels {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  height: 600px ;
+}
+
+.borrow-panel {
+  width: 50%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.borrow-panel h2 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.left-panel {
+  border-left: 5px solid #4a90e2;
+}
+
+.right-panel {
+  border-left: 5px solid #27ae60;
+}
+
+.books-table td {
+  font-size: 0.85rem;
+}
+
 /* Table itself */
+.borrow-panels {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  height: 600px; /* fixed panel height */
+}
+
+.borrow-panel {
+  width: 50%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* fill the 600px panel */
+}
+
+.borrow-panel h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  flex-shrink: 0; /* header does not shrink */
+}
+
+.left-panel {
+  border-left: 5px solid #4a90e2;
+}
+
+.right-panel {
+  border-left: 5px solid #27ae60;
+}
+
+/* Scrollable table container */
+.table-scroll {
+  flex-grow: 1;       /* take remaining panel height */
+  overflow-y: auto;   /* scroll if content exceeds */
+}
+
+/* Keep your existing table styling for sticky headers */
 .books-table {
   width: 100%;
-  border-collapse: separate; /* use separate for sticky to work reliably */
+  border-collapse: separate;
   border-spacing: 0;
   margin-top: 20px;
   background: #fff;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header */
 .books-table th {
   background: #2c3e50;
   position: sticky;
   top: 0;
-  z-index: 10;   /* higher z-index to stay above tbody rows */
+  z-index: 10;
   color: #fff;
   text-transform: uppercase;
   font-size: 13px;
@@ -177,8 +248,6 @@ textarea {
   text-align: center;
 }
 
-
-/* Rows */
 .books-table td {
   padding: 12px 10px;
   border-bottom: 1px solid #eee;
@@ -187,12 +256,10 @@ textarea {
   text-align: center;
 }
 
-/* Alternate row background */
 .books-table tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
 
-/* Hover effect */
 .books-table tbody tr:hover {
   background: #f1f7ff;
   transition: background 0.2s ease-in-out;
