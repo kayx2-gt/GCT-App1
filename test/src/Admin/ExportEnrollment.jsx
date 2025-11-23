@@ -12,6 +12,20 @@ export async function generateEnrollmentPDF(enrollment) {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([580, 842]);
 
+  
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontItalic = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+  const fontSize = 12;
+
+  const idText = `Enrollment ID: ${String(enrollment.id || "")}`;
+  const idX = 73;
+  const idY = 230 - 100; 
+  const subText = "(Save this ID for future reference)";
+  const idWidth = fontItalic.widthOfTextAtSize(idText, 9);
+  const subWidth = fontItalic.widthOfTextAtSize(subText, 9);
+  const subX = idX + (idWidth / 2) - (subWidth / 2)+30;
+  const lineHeight = 12; 
+
   const bgImage = await pdfDoc.embedPng(bgBytes);
   page.drawImage(bgImage, {
     x: 0,
@@ -19,9 +33,6 @@ export async function generateEnrollmentPDF(enrollment) {
     width: 580,
     height: 842,
   });
-
-  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const fontSize = 12;
 
   const val = (data, placeholder) => (data && data !== "" ? data : placeholder);
 
@@ -35,6 +46,13 @@ export async function generateEnrollmentPDF(enrollment) {
     return String(age);
   };
 
+  const amount = enrollment.amount
+    ? Number(enrollment.amount.replace(/[^\d.]/g, "")).toLocaleString("en-PH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : "N/A";
+
   const autoAge = computeAge(enrollment.dob);
 
   const paymentModeText = {
@@ -47,13 +65,6 @@ export async function generateEnrollmentPDF(enrollment) {
     "1": "Fully Paid",
     "2": "Installment",
   };
-
-  const courseText = enrollment.course
-    ? enrollment.course.replace(
-        "Bachelor of Science in Information Technology",
-        "BSIT"
-      )
-    : "{Course}";
 
   const draw = (text, x, y) => {
     page.drawText(val(text, text), {
@@ -69,33 +80,47 @@ export async function generateEnrollmentPDF(enrollment) {
     // DRAW ALL FIELDS WITH PLACEHOLDERS
     // ============================================================
     draw(val(enrollment.schoolYear, "2025-2026"), 125, 780);
-    draw(val(enrollment.semester, "{Semester}"), 365, 780);
-    draw(courseText, 140, 758);
-    draw(val(enrollment.yearLevel, "{YearLevel}"), 400, 760);
-    draw(val(enrollment.lastName, "{LastName}"), 73, 655);
-    draw(val(enrollment.firstName, "{FirstName}"), 73, 620);
-    draw(val(enrollment.middleName, "{MiddleName}"), 73, 585);
-    draw(val(enrollment.dob, "{DOB}"), 320, 655);
-    draw(val(autoAge, "{Age}"), 320, 585);
-    draw(val(enrollment.sex, "{Sex}"), 320, 620);
-    draw(val(enrollment.email, "{Email}"), 205, 538);
+    draw(val(enrollment.semester, "N/A"), 365, 780);
+    draw(val(enrollment.course,"N/A"), 140, 758);
+    draw(val(enrollment.yearLevel, "N/A"), 400, 760);
+    draw(val(enrollment.lastName, "N/A"), 73, 655);
+    draw(val(enrollment.firstName, "N/A"), 73, 620);
+    draw(val(enrollment.middleName, "N/A"), 73, 585);
+    draw(val(enrollment.dob, "N/A"), 320, 655);
+    draw(val(autoAge, "N/A"), 320, 585);
+    draw(val(enrollment.sex, "N/A"), 320, 620);
+    draw(val(enrollment.email, "N/A"), 205, 538);
 
-    draw(val(enrollment.guardianLastName, "{GuardianLastName}"), 73, 470);
-    draw(val(enrollment.guardianFirstName, "{GuardianFirstName}"), 73, 435);
-    draw(val(enrollment.guardianMiddleName, "{GuardianMiddleName}"), 73, 400);
-    draw(val(enrollment.guardianRelation, "{GuardianRelation}"), 320, 470);
-    draw(val(enrollment.guardianContact, "{GuardianContact}"), 320, 435);
-    draw(val(enrollment.guardianEmail, "{GuardianEmail}"), 320, 400);
+    draw(val(enrollment.guardianLastName, "N/A"), 73, 470);
+    draw(val(enrollment.guardianFirstName, "N/A"), 73, 435);
+    draw(val(enrollment.guardianMiddleName, "N/A"), 73, 400);
+    draw(val(enrollment.guardianRelation, "N/A"), 320, 470);
+    draw(val(enrollment.guardianContact, "N/A"), 320, 435);
+    draw(val(enrollment.guardianEmail, "N/A"), 320, 400);
 
-    draw(val(paymentModeText[enrollment.paymentMode], "{PaymentMode}"), 73, 332);
-    draw(val(enrollment.amount?.replace("₱", "PHP "), "{Amount}"), 320, 332);
-    draw(val(paymentTypeText[enrollment.paymentType], "{PaymentType}"), 73, 297);
-    draw(val(enrollment.paymentNo, "{PaymentNo}"), 73, 262);
+    draw(val(paymentModeText[enrollment.paymentMode], "N/A"), 73, 332);
+    draw(`PHP ${amount}`, 320, 332);
+    draw(val(paymentTypeText[enrollment.paymentType], "N/A"), 73, 297);
+    draw(val(enrollment.paymentNo, ""), 73, 262);
+    page.drawText(idText, {
+      x: idX,
+      y: idY,
+      size: 9,
+      font: fontItalic,
+      color: rgb(0, 0, 0),
+    });
+    page.drawText(subText, {
+      x: subX,
+      y: idY - lineHeight,
+      size: 9,
+      font: fontItalic,
+      color: rgb(0, 0, 0),
+    });
 
   const pdfBytes = await pdfDoc.save();
   saveAs(
     new Blob([pdfBytes], { type: "application/pdf" }),
-    `${val(enrollment.lastName, "LastName")}_${val(
+    `${val(enrollment.lastName, "LastName")}, ${val(
       enrollment.firstName,
       "FirstName"
     )}.pdf`

@@ -1,5 +1,12 @@
 const tuitionFees = {
     "BS in Civil Engineering": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+        description: "The BS in Civil Engineering program prepares students to become competent professionals in the planning, design, construction, and maintenance of infrastructure and public works. The curriculum combines rigorous technical training in structural, environmental, geotechnical, and transportation engineering with practical problem-solving, project management, and safety standards. Graduates are equipped to contribute to sustainable development, implement innovative engineering solutions, and meet the growing demands of the construction and infrastructure industry.",
         firstSemester: {
         1: { general: 3388.63, tuition: 8167.50, total: 11556.13 },
         2: { general: 3412.83, tuition: 5899.32, total: 9312.15 },
@@ -15,6 +22,13 @@ const tuitionFees = {
     },
 
     "BS in Mechanical Engineering": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 4320.84, tuition: 8167.50, total: 12488.34 },
         2: { general: 3377.04, tuition: 5094.18, total: 8471.22 },
@@ -30,6 +44,13 @@ const tuitionFees = {
     },
 
     "BS in Electrical Engineering": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 4356.63, tuition: 7965.07, total: 12321.70 },
         2: { general: 2444.83, tuition: 5821.92, total: 8266.75 },
@@ -45,6 +66,13 @@ const tuitionFees = {
     },
 
     "BS in Accountancy": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 2456.42, tuition: 8167.50, total: 10623.92 },
         2: { general: 2480.62, tuition: 7029.63, total: 9510.25 },
@@ -60,6 +88,13 @@ const tuitionFees = {
     },
 
     "BS in Business Administration": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 2456.42, tuition: 4537.50, total: 6993.92 },
         2: { general: 1512.62, tuition: 5579.34, total: 7091.96 },
@@ -75,6 +110,13 @@ const tuitionFees = {
     },
 
     "BS in Hotel Management": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 2456.42, tuition: 7260.00, total: 9716.42 },
         2: { general: 6231.62, tuition: 8766.68, total: 14998.30 },
@@ -90,6 +132,13 @@ const tuitionFees = {
     },
 
     "BS in Information Technology": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 4392.42, tuition: 6952.92, total: 11345.34 },
         2: { general: 3448.62, tuition: 9747.53, total: 13196.15 },
@@ -105,6 +154,13 @@ const tuitionFees = {
     },
 
     "BS in Computer Science": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 4392.42, tuition: 6952.92, total: 11345.34 },
         2: { general: 3448.62, tuition: 9747.53, total: 13196.15 },
@@ -120,6 +176,13 @@ const tuitionFees = {
     },
 
     "BS in Office Administration": {
+        images: [
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+        ],
+        bg: "",
+        description: "",
         firstSemester: {
         1: { general: 2456.42, tuition: 6352.50, total: 8808.92 },
         2: { general: 2480.62, tuition: 5331.57, total: 7812.19 },

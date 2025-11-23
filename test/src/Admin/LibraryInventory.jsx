@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../Components/SearchBar";
 import AdminModal from "../Components/AdminModal"; // ✅ import login modal
 import API_URL from "../config";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function BookInventory() {
   const navigate = useNavigate();
@@ -87,6 +89,10 @@ export default function BookInventory() {
     formData.append("description", form.description);
     formData.append("quantity", form.quantity);
     if (form.cover) formData.append("cover", form.cover);
+    if (!form.cover) {
+      alert("Please upload a book cover!");
+      return;
+    }
 
     try {
       const res = await fetch(`${API_URL}/api/books`, {
@@ -156,18 +162,26 @@ export default function BookInventory() {
               </div>
 
               <div className="form-group">
-                <label>Publication Date:</label>
-                <input type="date" name="pub_date" value={form.pub_date} onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
                 <label>Description:</label>
                 <textarea name="description" value={form.description} onChange={handleChange} required></textarea>
               </div>
 
               <div className="form-group">
+                <label>Publication Date:</label>
+                <DatePicker
+                  selected={form.pub_date ? new Date(form.pub_date) : null}
+                  onChange={(date) => setForm({ ...form, pub_date: date.toISOString().slice(0, 10) })}
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  placeholderText="Published Date"
+                />
+              </div>
+
+              <div className="form-group">
                 <label>Quantity:</label>
                 <input
+                  className="Quantitybox"
                   type="number"
                   name="quantity"
                   min="0"

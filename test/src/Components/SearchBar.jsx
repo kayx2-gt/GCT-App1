@@ -84,52 +84,52 @@ export default function SearchBar() {
           onChange={(e) => setQuery(e.target.value)}
         />
         {isActive && filteredBooks.length > 0 && (
-  <div className="search-results-cards">
-    {filteredBooks.map((book) => (
-      <div key={book.id} className="search-card">
-        <img
-          src={
-            book.cover_image
-              ? `${API_URL}/uploads/${book.cover_image}`
-              : "https://via.placeholder.com/100x140?text=No+Cover"
-          }
-          alt={book.title}
-          className="card-cover"
-          onClick={() => setPreviewBook(book)} // open preview when clicked
-        />
-        <div className="card-info">
-          <p className="card-title">{book.title}</p>
-          <p className="card-author">{book.author}</p>
-          <p className="card-id">ID: {book.id}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
+          <div className="search-results-cards">
+            {filteredBooks.map((book) => (
+              <div key={book.id} className="search-card">
+                <img
+                  src={
+                    book.cover_image
+                      ? `${API_URL}/uploads/${book.cover_image}`
+                      : "https://via.placeholder.com/100x140?text=No+Cover"
+                  }
+                  alt={book.title}
+                  className="card-cover"
+                  onClick={() => setPreviewBook(book)} // open preview when clicked
+                />
+                <div className="card-info">
+                  <p className="card-title">{book.title}</p>
+                  <p className="card-author">{book.author}</p>
+                  <p className="card-id">ID: {book.id}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-{/* Preview Modal */}
-{previewBook && (
-  <div className="preview-overlay" onClick={() => setPreviewBook(null)}>
-    <div className="preview-card" onClick={(e) => e.stopPropagation()}>
-      <img
-        src={
-          previewBook.cover_image
-            ? `${API_URL}/uploads/${previewBook.cover_image}`
-            : "https://via.placeholder.com/200x280?text=No+Cover"
-        }
-        alt={previewBook.title}
-        className="preview-cover"
-      />
-      <div className="preview-info">
-        <p className="preview-title">{previewBook.title}</p>
-        <p className="preview-author"><strong>Author:</strong> {previewBook.author}</p>
-        <p className="preview-id"><strong>ID:</strong> {previewBook.id}</p>
-        <p className="preview-description"><strong>Description:</strong><br /><span>{previewBook.description}</span></p>
-      </div>
-      <button className="btn btn-danger" onClick={() => handleDeleteBook(previewBook.id)}>Remove</button>
-    </div>
-  </div>
-)}
+        {/* Preview Modal */}
+        {previewBook && (
+          <div className="preview-overlay" onClick={() => setPreviewBook(null)}>
+            <div className="preview-card" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={
+                  previewBook.cover_image
+                    ? `${API_URL}/uploads/${previewBook.cover_image}`
+                    : "https://via.placeholder.com/200x280?text=No+Cover"
+                }
+                alt={previewBook.title}
+                className="preview-cover"
+              />
+              <div className="preview-info">
+                <p className="preview-title">{previewBook.title}</p>
+                <p className="preview-author"><strong>Author:</strong> {previewBook.author}</p>
+                <p className="preview-id"><strong>ID:</strong> {previewBook.id}</p>
+                <p className="preview-description"><strong>Description:</strong><br /><span>{previewBook.description}</span></p>
+              </div>
+              <button className="btn btn-danger" onClick={() => handleDeleteBook(previewBook.id)}>Remove</button>
+            </div>
+          </div>
+        )}
 
         </div>
     </div>

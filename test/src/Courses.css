@@ -1,0 +1,238 @@
+/* MAIN WRAPPER */
+.course-body {
+  font-family: Arial, sans-serif;
+  color: white;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-snap-type: y proximity; 
+  height: 100vh;
+}
+
+/* EACH COURSE = FULL SCREEN */
+.CourseCard {
+  width: 100vw;
+  height: 100vh;
+  padding: 60px;
+  display: flex;
+  flex-direction: row;      /* LEFT + RIGHT layout */
+  align-items: center;
+  gap: 60px;
+  position: relative;
+  box-sizing: border-box;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* DARK OVERLAY */
+.CourseCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+/* CONTENT ABOVE OVERLAY */
+.CourseCard * {
+  z-index: 1;
+}
+
+/* ───────────────────────────── */
+/* LEFT SIDE – COLLAGE           */
+/* ───────────────────────────── */
+.course-left {
+  width: 35%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 100px;
+}
+
+.collage {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Big image */
+.big-img {
+  width: 300px;
+  height: 410px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Column of 2 small images */
+.small-imgs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.small-img {
+  width: 160px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.big-img,
+.small-img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.big-img:hover,
+.small-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ───────────────────────────── */
+/* RIGHT SIDE – TEXT + TUITION   */
+/* ───────────────────────────── */
+.course-right {
+  width: 65%;
+  margin-top: 100px;
+  padding: 20px 20px;
+}
+
+/* Course Name */
+.course-right h2 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+/* Description */
+.course-desc {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  max-width: 140%;
+}
+
+/* ───────────────────────────── */
+/* TUITION SLIDER                */
+/* ───────────────────────────── */
+.tuition-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.arrow-btn {
+  background: rgba(255, 255, 255, 0.067);
+  border: none;
+  padding: 12px 18px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.arrow-btn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.tuition-box {
+  background: rgba(255,255,255,0.15);
+  padding: 20px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.tuition-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.tuition-box p,
+.tuition-box h4 {
+  font-size: 1.2rem;
+  margin: 4px 0;
+}
+
+/* ───────────────────────────── */
+/* ENROLL BUTTON                 */
+/* ───────────────────────────── */
+.enroll-btn {
+  padding: 14px 28px;
+  background: #ffcc00;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.enroll-btn:hover {
+  background: #ffd633;
+  scale: 1.05;
+}
+
+/* ───────────────────────────── */
+/* MOBILE RESPONSIVE             */
+/* ───────────────────────────── */
+@media (max-width: 900px) {
+  .CourseCard {
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 15px;
+    height: auto;
+  }
+
+  .course-left, .course-right {
+    width: 100%;
+  }
+  .course-left {
+    margin-top: 50px;
+  }
+  .course-right {
+    margin-top: 0;
+  }
+
+  .collage {
+    justify-content: center;
+  }
+
+  .big-img {
+    width: 220px;
+    height: 300px;
+  }
+
+  .small-img {
+    width: 120px;
+    height: 150px;
+  }
+
+  .course-right h2 {
+    font-size: 2rem;
+    white-space: wrap;
+    text-align: center; /* centers the text */
+    word-wrap: break-word; /* allows long words to wrap */
+    line-height: 1.2; /* optional: improves spacing if wrapping occurs */
+}
+
+
+  .course-desc {
+    width: 90%;
+    font-size: 1rem;
+    justify-self: center;
+    text-align: justify; /* justifies the text */
+    text-justify: inter-word;
+  }
+
+  .tuition-container {
+    gap: 10px;
+    justify-self: center;
+  }
+}

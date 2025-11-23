@@ -8,6 +8,7 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
         const [step, setStep] = useState(1);    
       const [showWarning, setShowWarning] = useState(false);
       // Step 1 - Enrollment states
+      const [id, setId] = useState("");
       const [lastName, setLastName] = useState("");
       const [middleName, setMiddleName] = useState("");
       const [firstName, setFirstName] = useState("");
@@ -55,7 +56,7 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
         e.preventDefault();
   
         const data = {
-          lastName, middleName, firstName, dob, sex,
+          id,lastName, middleName, firstName, dob, sex,
           selectedCourse, selectedYear, selectedSemester, email,
           pLastName, pMiddleName, pFirstName, pEmail, pRelation, contact,
           selectedPaymentMode, selectedPayment, paymentNo, amount
@@ -74,12 +75,14 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
 
         const result = await response.json();
         alert(result.message);
+        setId(result.id);
 
         // =======================
         // 🔹 AUTO-DOWNLOAD PDF HERE
         // =======================
 
         await generateEnrollmentPDF({
+          id: result.id,
           lastName,
           middleName,
           firstName,
@@ -258,6 +261,7 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
                   <option value="BS in Business Administration">BSBA</option>
                   <option value="BS in Hotel Management">BSHM</option>
                   <option value="BS in Office Administration">BSOA</option>
+                  <option value="BS in Mechanical Engineering">BSME</option>
                 </select>
   
                 <label>Year level:</label>
@@ -434,7 +438,13 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
                 <input
                   type="text"
                   placeholder="₱ 0.00"
-                  value={amount ? "₱ " + amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}
+                  value={
+                    selectedPayment === "1"
+                      ? amount.replace("₱", "₱ ").trim()   // Fully Paid → show only number
+                      : amount
+                        ? "₱ " + amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")  // Installment
+                        : ""
+                  }
                   onChange={(e) => {
                     // keep only digits
                     let rawValue = e.target.value.replace(/[^\d]/g, "");
