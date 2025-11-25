@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import React, { useEffect, useState, useRef } from "react";
 import "../Library.css";
 import API_URL from "../config";
-import BookRow from "../Components/BookRow"; // <-- import your BookRow component
+import BookRow from "../Components/BookRow"; 
 
 export default function Library() {
   const [books, setBooks] = useState([]);
@@ -12,7 +12,7 @@ export default function Library() {
   const [expanded, setExpanded] = useState(null);
   const [user, setUser] = useState(null);
   const [studentRequests, setStudentRequests] = useState([]);
-  const [feedbackMessage, setFeedbackMessage] = useState(""); // 🟢 for borrow feedback
+  const [feedbackMessage, setFeedbackMessage] = useState(""); 
 
   const libraryContentRef = useRef(null);
   const scrollRefs = useRef({});
