@@ -1,69 +1,401 @@
-/*Cards*/
-.cards-wrapper {
+/* ===== GENERAL STYLING ===== */
+.about-wrapper {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  background: #f5f7fa;
+}
+
+/* ===== HERO SECTION ===== */
+.about-hero {
+  position: relative;
+  background: linear-gradient(rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5)), url("/public/Assets/6ec3bb16-461f-4bc3-8dc1-a07af239047c.png") center/cover no-repeat;
+  height: 560px;
   display: flex;
-  justify-content: center;        
-  padding: 60px 20px; /* instead of min-height:100vh */
-  margin-top: 100px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.gct-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  margin-top: 0; /* remove the 10% pushing it down */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 50, 0.5);
+  transition: background 0.5s ease;
 }
 
-.card {
-  background: linear-gradient(135deg, #1E3A8A 0%, #2747a8 50%, #FFD700 100%);
-  border-radius: 15px;
-  padding: 20px;
+.about-hero-content {
+  position: relative;
+  color: white;
   text-align: center;
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: #fff; 
-  height: 350px; /* adjust px to your preference */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  max-width: 650px;
+  animation: fadeIn 1.5s ease-in-out;
+  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.858); /* deeper shadow for hero text */
 }
 
-.card h3 {
-    padding-top: 5%;
-  margin: 10px 0;
-  font-size: 1.4rem;
-  color: gold; 
+.about-hero-content h1 {
+  font-size: 40px;
+  font-weight: 900;
+  margin: 0;
+  color: #ffc107;
+  text-shadow: 3px 3px 15px rgba(0,0,0,0.7); /* stronger 3D effect */
 }
 
-.card p {
-    margin-top: 20px;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
-  color: #f0f0f0;
-  text-align: center;
-  line-height: 1.3;
+.about-hero-content p {
+  font-size: 20px;
+  margin-top: 25px;
+  color: #ffffff;
+  text-shadow: 1.5px 1.5px 8px rgba(0,0,0,0.6);
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 18px;
-  background: rgba(0,0,0,0.5); 
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
+/* BUTTON STYLING */
+.enroll-button {
+  margin-top: 25px;
+  padding: 18px 32px;
+  width: 200px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #ffc107, #ffea70);
+  color: #002b5c;
+  border-radius: 30px;
   font-weight: bold;
-  transition: background 0.3s ease;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4); /* subtle glow shadow */
 }
 
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0px 10px 20px rgba(0,0,0,0.25);
+.enroll-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(255, 193, 7, 0.7);
+  background: linear-gradient(135deg, #e6b106, #ffd449);
 }
 
-.card img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 15px;
+/* FADE-IN ANIMATION */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-.btn:hover {
-  background: #243ddd;
-} 
+
+/* ===== CONTAINERS ===== */
+.container {
+  width: 85%;
+  margin: auto;
+  padding: 50px 0;
+}
+
+/* ===== CENTER ALL H2 TITLES ===== */
+h2, .section-title {
+  font-size: 32px;
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  position: relative;
+  font-weight: 700;
+  color: #002b5c;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2); /* subtle depth shadow */
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #ffc107;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.section-title.light {
+  color: white;
+}
+
+.about-description {
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeInText 2s forwards 0.5s;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeInText {
+  0% { opacity: 0; transform: translateY(15px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+
+/* ===== INFO GRID ===== */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #e0e6f0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.306); /* subtle 3D depth */
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.249); /* stronger hover shadow */
+  border-color: #ffc107;
+}
+
+/* ===== CHOOSE US SECTION ===== */
+.choose-us-section {
+  background: linear-gradient(135deg, #002b5c, #004080);
+  color: white;
+  padding: 60px 0;
+}
+
+.choose-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.choose-card {
+  background: rgba(234, 233, 233, 0.235);
+  padding: 28px;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.194);
+}
+
+.choose-card:hover {
+  background: rgba(255, 255, 255, 0.235);
+  transform: translateY(-5px) scale(1.03);
+  border-color: #ffc107;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+}
+
+.icon {
+  font-size: 35px;
+  transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.choose-card:hover .icon {
+  color: #ffc107;
+  transform: rotate(10deg) scale(1.2);
+  text-shadow: 0 0 8px rgba(255,193,7,0.6);
+}
+
+/* HISTORY SECTION */
+.about-history {
+  padding: 60px 0;
+  background: #f9f9f9; /* Light, clean background */
+  color: #333;
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.history-card {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 17px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.199);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  border: 2px solid #e0e6f0;
+}
+
+.history-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.283);
+  border-color: #ffc107;
+}
+
+.history-year {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffc107; /* accent color for year */
+  margin-bottom: 10px;
+}
+
+.history-card h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.history-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+
+/* ===== TEAM SECTION ===== */
+.team-section {
+  padding: 50px 0;
+  background: #e3e2e2;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.team-card {
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px;
+  background: #f7f5f5;
+  padding: 20px;
+  border: 2px solid #e0e6f0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.694);
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.253);
+  border-color: #ffc107;
+}
+
+.team-photo {
+  background: #ddd;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  margin: auto;
+  overflow: hidden;
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.team-photo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+
+
+/* Modal overlay with blur */
+.form-container.show {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* slightly transparent */
+  backdrop-filter: blur(6px); /* background blur */
+  -webkit-backdrop-filter: blur(6px); /* Safari support */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+
+/* Modal card */
+.profile-modal {
+  background: #fff;
+  color: #111;
+  border-radius: 1rem;
+  width: 500px;
+  max-width: 90%;
+  max-height: 90vh; /* never exceed 90% of viewport height */
+  overflow-y: auto; /* scroll internally if content is too long */
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Hide default scrollbar for webkit browsers (optional) */
+.profile-modal::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* Profile photo wrapper */
+.profile-photo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #4f46e5;
+}
+
+/* Name & role */
+.profile-name {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+}
+
+.profile-role {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Details */
+.profile-details {
+  line-height: 1.6;
+}
+
+.detail-item {
+  margin-bottom: 0.8rem;
+}
+
+.detail-item strong {
+  display: inline-block;
+  width: 120px;
+  color: #4f46e5;
+}
+
+.detail-item.achievements ul {
+  margin-top: 0.5rem;
+  padding-left: 1.2rem;
+}
+
+.detail-item.about p {
+  margin-top: 0.3rem;
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+@keyframes scaleIn {
+  from {transform: scale(0.9); opacity:0;}
+  to {transform: scale(1); opacity:1;}
+}

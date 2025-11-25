@@ -3,7 +3,7 @@
 }
 
 .search-controls {
-color: white;
+  color: white;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -31,7 +31,7 @@ color: white;
 .search-results-cards {
   position: absolute;
   width: 450px;
-  top: 140px;
+  top: 30px;
   max-height: 180px; 
   display: flex;
   flex-wrap: nowrap;
@@ -209,6 +209,7 @@ color: white;
 @media (max-width: 600px) {
     .search-results-cards {
         width: 95%;
+        top: -150px;
     }
 
     .search-controls input {

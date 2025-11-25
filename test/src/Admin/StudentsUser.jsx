@@ -86,41 +86,79 @@ export default function StudentUser() {
   }, [isAdmin]);
 
   const handleAddStudent = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => {
-      if (value) formData.append(key, value);
+  // ✅ Require profile picture
+  if (!form.photo) {
+    alert("❌ Please upload a student photo before submitting.");
+    return;
+  }
+
+  // 🔹 Auto-generate Library Card No if empty
+  let autoLibrary = form.libraryCardNo;
+  if (!autoLibrary) {
+    const last = students.length > 0
+      ? Math.max(...students.map(s => Number(s.libraryCardNo || 15300)))
+      : 15300;
+
+    autoLibrary = last + 1;
+  }
+
+  // 🔹 Auto-generate Student No if empty
+  let autoStudentNo = form.studentNo;
+  if (!autoStudentNo) {
+    const lastStudent = students.length > 0
+      ? Math.max(...students.map(s => Number(s.studentNo || 15200)))
+      : 15200;
+
+    autoStudentNo = lastStudent + 1;
+  }
+
+  const formData = new FormData();
+  formData.append("username", form.username);
+  formData.append("password", form.password);
+  formData.append("fullname", form.fullname);
+  formData.append("courseYear", form.courseYear);
+  formData.append("photo", form.photo);
+  formData.append("libraryCardNo", autoLibrary);
+  formData.append("studentNo", autoStudentNo);
+
+  try {
+    const res = await fetch(`${API_URL}/api/students/add`, {
+      method: "POST",
+      body: formData,
     });
 
-    try {
-      const res = await fetch(`${API_URL}/api/students/add`, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        alert("✅ Student added!");
-        setStudents((prev) => [data, ...prev]);
-        await fetchStudents();
-        setForm({
-          username: "",
-          password: "",
-          fullname: "",
-          libraryCardNo: "",
-          studentNo: "",
-          courseYear: "",
-          photo: null,
-        });
-        setPreview(null);
-      } else {
-        alert(data.error || "❌ Failed to add student");
-      }
-    } catch (err) {
-      console.error("Error adding student:", err);
+    if (res.ok) {
+      alert("✅ Student added!");
+
+      setStudents((prev) => [data, ...prev]);
+      await fetchStudents();
+
+      setForm({
+        username: "",
+        password: "",
+        fullname: "",
+        libraryCardNo: "",
+        studentNo: "",
+        courseYear: "",
+        photo: null,
+      });
+
+      setPreview(null);
+
+    } else {
+      alert(data.error || "❌ Failed to add student");
     }
-  };
+
+  } catch (err) {
+    console.error("Error adding student:", err);
+    alert("❌ Error adding student");
+  }
+};
+  
 
   // Toggle active/inactive
 const toggleStatus = async (id, currentStatus) => {
@@ -130,7 +168,7 @@ const toggleStatus = async (id, currentStatus) => {
     const res = await fetch(`${API_URL}/api/students/${id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus })
+      body: JSON.stringify({ status: newStatus }),
     });
 
     if (res.ok) {
@@ -197,7 +235,7 @@ const toggleStatus = async (id, currentStatus) => {
                   name="libraryCardNo"
                   value={form.libraryCardNo}
                   onChange={handleChange}
-                  required
+                  placeholder="Auto-generate if empty"
                 />
               </div>
               <div className="form-group">
@@ -207,21 +245,85 @@ const toggleStatus = async (id, currentStatus) => {
                   name="studentNo"
                   value={form.studentNo}
                   onChange={handleChange}
-                  required
+                  placeholder="Auto-generate if empty"
                 />
               </div>
               <div className="form-group">
                 <label>Course & Year:</label>
-                <input
-                  type="text"
+                <select
                   name="courseYear"
                   value={form.courseYear}
                   onChange={handleChange}
                   required
-                />
+                >
+                  <option value="" disabled hidden>Select Course & Year</option>
+
+                  <optgroup label="BSCS">
+                    <option value="BSCS 1st Year">BSCS - 1st Year</option>
+                    <option value="BSCS 2nd Year">BSCS - 2nd Year</option>
+                    <option value="BSCS 3rd Year">BSCS - 3rd Year</option>
+                    <option value="BSCS 4th Year">BSCS - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSIT">
+                    <option value="BSIT 1st Year">BSIT - 1st Year</option>
+                    <option value="BSIT 2nd Year">BSIT - 2nd Year</option>
+                    <option value="BSIT 3rd Year">BSIT - 3rd Year</option>
+                    <option value="BSIT 4th Year">BSIT - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSCE">
+                    <option value="BSCE 1st Year">BSCE - 1st Year</option>
+                    <option value="BSCE 2nd Year">BSCE - 2nd Year</option>
+                    <option value="BSCE 3rd Year">BSCE - 3rd Year</option>
+                    <option value="BSCE 4th Year">BSCE - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSEE">
+                    <option value="BSEE 1st Year">BSEE - 1st Year</option>
+                    <option value="BSEE 2nd Year">BSEE - 2nd Year</option>
+                    <option value="BSEE 3rd Year">BSEE - 3rd Year</option>
+                    <option value="BSEE 4th Year">BSEE - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSA">
+                    <option value="BSA 1st Year">BSA - 1st Year</option>
+                    <option value="BSA 2nd Year">BSA - 2nd Year</option>
+                    <option value="BSA 3rd Year">BSA - 3rd Year</option>
+                    <option value="BSA 4th Year">BSA - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSBA">
+                    <option value="BSBA 1st Year">BSBA - 1st Year</option>
+                    <option value="BSBA 2nd Year">BSBA - 2nd Year</option>
+                    <option value="BSBA 3rd Year">BSBA - 3rd Year</option>
+                    <option value="BSBA 4th Year">BSBA - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSHM">
+                    <option value="BSHM 1st Year">BSHM - 1st Year</option>
+                    <option value="BSHM 2nd Year">BSHM - 2nd Year</option>
+                    <option value="BSHM 3rd Year">BSHM - 3rd Year</option>
+                    <option value="BSHM 4th Year">BSHM - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSOA">
+                    <option value="BSOA 1st Year">BSOA - 1st Year</option>
+                    <option value="BSOA 2nd Year">BSOA - 2nd Year</option>
+                    <option value="BSOA 3rd Year">BSOA - 3rd Year</option>
+                    <option value="BSOA 4th Year">BSOA - 4th Year</option>
+                  </optgroup>
+
+                  <optgroup label="BSME">
+                    <option value="BSME 1st Year">BSME - 1st Year</option>
+                    <option value="BSME 2nd Year">BSME - 2nd Year</option>
+                    <option value="BSME 3rd Year">BSME - 3rd Year</option>
+                    <option value="BSME 4th Year">BSME - 4th Year</option>
+                  </optgroup>
+
+                </select>
               </div>
             </div>
-
             {/* Right side - student photo */}
             <div className="form-right">
               <h2 className="dropzone-title">Student Photo (1x1)</h2>
@@ -342,3 +444,4 @@ const toggleStatus = async (id, currentStatus) => {
     </div>
   );
 }
+  

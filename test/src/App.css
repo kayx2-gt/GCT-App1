@@ -1,5 +1,4 @@
 /* Shared body styling */
-.course-body,
 .library-body,
 .aboutGct-body,
 .admin-body {
@@ -24,16 +23,10 @@
   background-image: url("/public/Assets/6ec3bb16-461f-4bc3-8dc1-a07af239047c.png");
 }
 
-.course-body,.admin-body {
-  background-image: url("/public/Assets/4e67438a-ec98-4fd2-b77c-3ed0bca80e0f.png");
-}
-
 .library-body {
   background-image: url("/public/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png");
 }
 
-
-.course-body::before,
 .library-body::before {
   content: "";
   position: absolute;

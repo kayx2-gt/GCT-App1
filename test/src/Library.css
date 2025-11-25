@@ -420,7 +420,7 @@
   display: block;                 /* ✅ Normal display for full text */
   white-space: normal;
   word-wrap: break-word;
-  min-height: 50px; 
+  min-height: 55px; 
 }
 
 /* Borrow button */
@@ -543,8 +543,8 @@
   }
 
   .book-title {
-    font-size: 0.8rem;
-    max-height: 2em;
+    font-size: 0.8rem !important;
+    max-height: 2.3em;
   }
 
   .borrow-btn {
