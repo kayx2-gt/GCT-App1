@@ -88,7 +88,7 @@
 }
 
 /* ===== CENTER ALL H2 TITLES ===== */
-h2, .section-title {
+.about-wrapper h2, .section-title {
   font-size: 32px;
   display: block;
   text-align: center;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 import "../LibraryInv.css";
-import AdminModal from "../Components/AdminModal";
+import AdminModal from "../Components/AdminLogin";
 import API_URL from "../config";
 import StudentSearchBar from "../Components/StudentSearchbar";
 

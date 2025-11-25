@@ -5,7 +5,7 @@ import API_URL from "../config";
 
 import ContactModal from "./ContactModal";
 import EnrollFormModal from "./EnrollFormModal";
-import UserModal from "./UserModal";
+import UserModal from "./UserLogin";
 
 export default function Navbar() {
   const [isUserModal, setIsUserModal] = useState(false);

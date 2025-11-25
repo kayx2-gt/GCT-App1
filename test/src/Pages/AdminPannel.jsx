@@ -1,11 +1,11 @@
 //adminpannel.jsx
 import React, { useState, useEffect } from "react"; 
-import AdminModal from "../Components/AdminModal";
+import AdminModal from "../Components/AdminLogin";
 import "../LibraryInv.css";
 import API_URL from "../config";
 
 // 🔥 Import ExportEnrollment component
-import ExportEnrollment from "../Admin/ExportEnrollment";
+import ExportEnrollment from "../Components/ExportEnrollment";
 
 export default function AdminPanel() {
   const [isAdmin, setIsAdmin] = useState(false);
