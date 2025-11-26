@@ -27,20 +27,30 @@ export default function BorrowRequests({
                 <tr key={r.id}>
                   <td>{r.student_name}</td>
                   <td>{r.book_title}</td>
-                  <td
-                    className={`status-${r.status
-                      .toLowerCase()
-                      .replace(" ", "-")}`}
-                  >
+                  <td className={`status-${r.status.toLowerCase().replace(" ", "-")}`}>
                     {r.status}
+                    {/* Show reason if request was denied */}
+                    {r.status === "Not Approved" && r.reason && (
+                      <p className="reason-text">{r.reason}</p>
+                    )}
+                    {/* Show last updated timestamp */}
+                    {r.updated_at && (
+                      <p className="updated-text">
+                        {new Date(r.updated_at).toLocaleString()}
+                      </p>
+                    )}
                   </td>
-                  <td>{new Date(r.borrow_date).toLocaleString()}</td>
-                  <td>{new Date(r.due_date).toLocaleString()}</td>
+                  <td>{r.borrow_date ? new Date(r.borrow_date).toLocaleString() : "-"}</td>
+                  <td>{r.due_date ? new Date(r.due_date).toLocaleString() : "-"}</td>
                   <td>
                     {r.status === "Pending Approval" && (
                       <>
-                        <button onClick={() => updateBorrowStatus(r.id, "Claimable")}>Approve</button>
-                        <button onClick={() => updateBorrowStatus(r.id, "Not Approved")}>Deny</button>
+                        <button onClick={() => updateBorrowStatus(r.id, "Claimable")}>
+                          Approve
+                        </button>
+                        <button onClick={() => updateBorrowStatus(r.id, "Not Approved")}>
+                          Deny
+                        </button>
                       </>
                     )}
 
