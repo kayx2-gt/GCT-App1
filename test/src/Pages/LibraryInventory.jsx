@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../Components/SearchBar";
 import AdminModal from "../Components/AdminLogin";
 import API_URL from "../config";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import BorrowRequests from "../Components/BorrowRequests";
 import BorrowHistory from "../Components/BorrowHistory";
+import AddBookForm from "../Components/AddBookForm";
+import BookTable from "../Components/BookTable";
 
 
 export default function BookInventory() {
@@ -231,100 +232,31 @@ export default function BookInventory() {
           <SearchBar />
 
           {/* Add Book Form */}
-          <form onSubmit={handleAddBook} className="book-form">
-            <div className="form-left">
-              <div className="form-group">
-                <label>Title:</label>
-                <input type="text" name="title" value={form.title} onChange={handleChange} required />
-              </div>
-              <div className="form-group">
-                <label>Author:</label>
-                <input type="text" name="author" value={form.author} onChange={handleChange} required />
-              </div>
-              <div className="form-group">
-                <label>Description:</label>
-                <textarea name="description" value={form.description} onChange={handleChange} required></textarea>
-              </div>
-              <div className="form-group">
-                <label>Publication Date:</label>
-                <DatePicker
-                  selected={form.pub_date ? new Date(form.pub_date) : null}
-                  onChange={(date) => setForm({ ...form, pub_date: date.toISOString().slice(0, 10) })}
-                  showMonthDropdown showYearDropdown dropdownMode="select"
-                  placeholderText="Published Date"
-                />
-              </div>
-              <div className="form-group">
-                <label>Quantity:</label>
-                <input
-                  className="Quantitybox" type="number" name="quantity" min="0"
-                  value={form.quantity} onChange={handleChange} required
-                />
-              </div>
-            </div>
-
-            <div className="form-right">
-              <h2 className="dropzone-title">Book Cover</h2>
-              <div
-                className={`dropzone ${isDragging ? "dragging" : ""}`}
-                onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
-                onDragLeave={e => { e.preventDefault(); setIsDragging(false); setPreview(null); document.getElementById("coverInput").value = ""; }}
-                onDrop={e => { e.preventDefault(); setIsDragging(false); const file = e.dataTransfer.files[0]; if (file && file.type.startsWith("image/")) handleFileSelect(file); }}
-                onClick={() => document.getElementById("coverInput").click()}
-              >
-                {preview ? <img src={preview} alt="Book Cover Preview" /> : <span>📂 Insert Img or Drag Img</span>}
-                <input id="coverInput" type="file" accept="image/*" style={{ display: "none" }} onChange={e => handleFileSelect(e.target.files[0])} />
-              </div>
-              <button type="submit" className="btn">Add Book</button>
-            </div>
-          </form>
+          <AddBookForm
+            form={form}
+            preview={preview}
+            isDragging={isDragging}
+            handleChange={handleChange}
+            handleFileSelect={handleFileSelect}
+            handleAddBook={handleAddBook}
+            setForm={setForm}
+            setIsDragging={setIsDragging}
+          />
 
           <div className="borrow-panels">
-  <BorrowRequests
-    borrowRequests={borrowRequests}
-    updateBorrowStatus={updateBorrowStatus}
-    handleReturn={handleReturn}
-  />
+            <BorrowRequests
+              borrowRequests={borrowRequests}
+              updateBorrowStatus={updateBorrowStatus}
+              handleReturn={handleReturn}
+            />
 
-  <BorrowHistory
-    borrowHistory={borrowHistory}
-  />
-</div>
+            <BorrowHistory
+              borrowHistory={borrowHistory}
+            />
+          </div>
           {/* Books Table */}
           <div className="table-wrapper">
-            <table className="books-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Publication Date</th>
-                  <th>Description</th>
-                  <th>Qty</th>
-                  <th>Cover</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {books.map(row => (
-                  <tr key={row.id}>
-                    <td>{row.id}</td>
-                    <td>{row.title}</td>
-                    <td>{row.author}</td>
-                    <td>{row.publication_date}</td>
-                    <td className="tb-description">{row.description}</td>
-                    <td>{row.quantity_in_stock}</td>
-                    <td>{row.cover_image ? <img src={`${API_URL}/uploads/${row.cover_image}`} alt="Book Cover" className="table-cover" /> : "No cover"}</td>
-                    <td className={row.quantity_in_stock > 0 ? "status available" : "status out"}>
-                      {row.quantity_in_stock > 0 ? "Available" : "Out of Stock"}
-                    </td>
-                    <td><button className="btn btn-danger" onClick={() => handleDeleteBook(row.id)}>Remove</button></td>
-                  </tr>
-                ))}
-                {books.length === 0 && <tr><td colSpan="9" className="empty-msg">No books in inventory.</td></tr>}
-              </tbody>
-            </table>
+            <BookTable books={books} handleDeleteBook={handleDeleteBook} />
           </div>
         </>
       ) : (
