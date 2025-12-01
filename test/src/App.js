@@ -5,7 +5,7 @@ import './App.css';
 import AboutGct from './Pages/AboutGct.jsx';
 import Courses from './Pages/Courses.jsx';
 import Library from './Pages/Library.jsx';
-
+import History from './Pages/History.jsx';
 import Admin from './Admin/AdminPannel.jsx' ;
 import BookInventory from './Admin/LibraryInventory.jsx';
 import StudentUser from './Admin/StudentsUser.jsx';
@@ -60,6 +60,7 @@ function App() {
               <Route path='/' element={<AboutGct />} />
               <Route path='/Courses' element={<Courses />} />
               <Route path='/Library' element={<Library />} />
+              <Route path='/History' element = {<History/>}/>
               <Route
                 path='/Admin'
                 element={
