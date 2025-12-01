@@ -179,9 +179,10 @@ const tuitionFees = {
         images: [
             "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
             "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            
         ],
-        bg: "",
+        bg: "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
         description: "",
         firstSemester: {
         1: { general: 2456.42, tuition: 6352.50, total: 8808.92 },

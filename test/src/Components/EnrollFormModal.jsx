@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import tuitionFees from "../Data/TuitionFees";
 import API_URL from "../config";
 import "../Enrollment.css";
-import { generateEnrollmentPDF } from "../Admin/ExportEnrollment";
+import { generateEnrollmentPDF } from "../Components/ExportEnrollment";
 
 export default function EnrollFormModal({ isOpen, closeModal }) {
         const [step, setStep] = useState(1);    

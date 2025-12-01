@@ -6,9 +6,9 @@ import AboutGct from './Pages/AboutGct.jsx';
 import Courses from './Pages/Courses.jsx';
 import Library from './Pages/Library.jsx';
 import History from './Pages/History.jsx';
-import Admin from './Admin/AdminPannel.jsx' ;
-import BookInventory from './Admin/LibraryInventory.jsx';
-import StudentUser from './Admin/StudentsUser.jsx';
+import Admin from './Pages/AdminPannel.jsx' ;
+import BookInventory from './Pages/LibraryInventory.jsx';
+import StudentUser from './Pages/StudentsUser.jsx';
 
 function LocalhostOnly({ children }) {
   const isLocalhost =

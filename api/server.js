@@ -343,6 +343,7 @@ app.get("/api/debug/books", (req, res) => {
 const borroweddb = librarydb;
 
 // Create borrowed_books table
+// Create table
 borroweddb.run(`
   CREATE TABLE IF NOT EXISTS borrowed_books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -350,11 +351,16 @@ borroweddb.run(`
     book_id INTEGER,
     borrow_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     return_date TIMESTAMP,
-    status TEXT DEFAULT 'Pending',        -- Pending | Approved | Borrowed | Returned | Denied | Violated
+    status TEXT DEFAULT 'Pending',
+    reason TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `);
+
+// Drop trigger if exists
+borroweddb.run(`DROP TRIGGER IF EXISTS update_borrowed_books_updated_at`);
+
 
 app.post("/api/borrow/:id", (req, res) => {
   const { id } = req.params;
@@ -417,17 +423,23 @@ app.get("/api/borrow/history/:studentId", (req, res) => {
   const query = `
     SELECT 
       br.id,
-      br.book_id,                
+      br.student_id,
+      br.book_id,
       bk.title AS book_title,
-      bk.cover_image AS cover_image,  -- ✅ Added this line
+      bk.cover_image AS cover_image,
+      br.status,
+      br.reason,
       br.borrow_date,
-      datetime(br.borrow_date, '+7 days') AS due_date,
       br.return_date,
-      br.status
+      br.created_at,
+      br.updated_at,
+      datetime(br.borrow_date, '+7 days') AS due_date,
+      COALESCE(s.fullname, 'Unknown Student') AS student_name
     FROM borrowed_books br
     LEFT JOIN books bk ON br.book_id = bk.id
+    LEFT JOIN userdb.students s ON br.student_id = s.id
     WHERE br.student_id = ?
-    ORDER BY br.borrow_date DESC
+    ORDER BY br.created_at DESC
   `;
 
   borroweddb.all(query, [studentId], (err, rows) => {
@@ -535,7 +547,7 @@ app.post("/api/borrow/request/:bookId", (req, res) => {
     SELECT COUNT(*) AS active_borrows
     FROM borrowed_books
     WHERE student_id = ?
-      AND status IN ('Borrowed', 'Pending Approval', 'Violated')
+      AND status IN ('Borrowed', 'Pending Approval', 'Violated', 'Claimable')
   `;
 
   borroweddb.get(checkQuery, [studentId], (err, result) => {
@@ -583,14 +595,18 @@ app.post("/api/borrow/update-status/:recordId", (req, res) => {
       return res.json({ success: false, message: "Record not found." });
     }
 
+    const { reason } = req.body || "";
+
     const updateQuery = `
       UPDATE borrowed_books 
       SET status = ?, 
-          return_date = CASE WHEN ? = 'Returned' THEN CURRENT_TIMESTAMP ELSE return_date END
+          return_date = CASE WHEN ? = 'Returned' THEN CURRENT_TIMESTAMP ELSE return_date END,
+          reason = CASE WHEN ? = 'Not Approved' THEN ? ELSE reason END,
+          updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `;
 
-    borroweddb.run(updateQuery, [status, status, recordId], function (updateErr) {
+    borroweddb.run(updateQuery, [status, status, status, reason, recordId], function (updateErr) {
       if (updateErr) {
         console.error("Error updating status:", updateErr);
         return res.json({ success: false, message: "Failed to update status." });
@@ -606,7 +622,7 @@ app.post("/api/borrow/update-status/:recordId", (req, res) => {
             if (stockErr) console.error("Error incrementing stock:", stockErr);
           }
         );
-      } else if (status === "Approved" || status === "Borrowed") {
+      } else if (status === "Approved" || status === "Borrowed" || status === "Claimable") {
         // Book approved/borrowed → decrease stock
         librarydb.run(
           "UPDATE books SET quantity_in_stock = quantity_in_stock - 1 WHERE id = ? AND quantity_in_stock > 0",
@@ -626,20 +642,23 @@ app.post("/api/borrow/update-status/:recordId", (req, res) => {
 app.get("/api/borrow/all", (req, res) => {
   const query = `
     SELECT 
-      b.id,
-      b.student_id,
-      COALESCE(s.fullname, 'Unknown Student') AS student_name,
-      b.book_id,
-      COALESCE(bk.title, 'Unknown Book') AS book_title,
-      b.status,
-      b.borrow_date,
-      b.return_date,
-      datetime(b.borrow_date, '+7 days') AS due_date,
-      b.created_at
-    FROM borrowed_books b
-    LEFT JOIN books bk ON b.book_id = bk.id
-    LEFT JOIN userdb.students s ON b.student_id = s.id
-    ORDER BY b.created_at DESC
+    br.id,
+    br.student_id,
+    br.book_id,
+    bk.title AS book_title,
+    bk.cover_image AS cover_image,
+    br.status,
+    br.reason,
+    br.borrow_date,
+    br.return_date,
+    br.created_at,
+    br.updated_at,
+    datetime(br.borrow_date, '+7 days') AS due_date,
+    COALESCE(s.fullname, 'Unknown Student') AS student_name
+  FROM borrowed_books br
+  LEFT JOIN books bk ON br.book_id = bk.id
+  LEFT JOIN userdb.students s ON br.student_id = s.id
+  ORDER BY br.created_at DESC
   `;
 
   borroweddb.all(query, [], (err, rows) => {
