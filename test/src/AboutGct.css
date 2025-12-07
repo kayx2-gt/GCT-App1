@@ -83,17 +83,15 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-
-
 /* ===== CONTAINERS ===== */
-.container {
+.about-container {
   width: 85%;
   margin: auto;
   padding: 50px 0;
 }
 
 /* ===== CENTER ALL H2 TITLES ===== */
-h2, .section-title {
+.AboutGct h2, .section-title {
   font-size: 42px;
   display: block;
   text-align: center;
@@ -493,7 +491,7 @@ h2, .section-title {
 
 
 /* Modal overlay with blur */
-.form-container.show {
+.about-form-container.show {
   position: fixed;
   top: 0;
   left: 0;

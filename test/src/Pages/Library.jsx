@@ -18,7 +18,6 @@ export default function Library() {
   const libraryContentRef = useRef(null);
   const scrollRefs = useRef({});
 
-  // Fetch student requests
   useEffect(() => {
     if (!user) return;
     fetch(`${API_URL}/api/borrow/history/${user.id}`)

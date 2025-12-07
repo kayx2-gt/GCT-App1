@@ -15,7 +15,6 @@
 .library-container {
   display: flex;
   width: 90%;
-  max-width: 1300px;
   gap: 20px;
   margin-left: 300px;
   margin-top: 120px;
@@ -26,10 +25,10 @@
 /* Fixed Sidebar Wrapper */
 .fixed-side-bar {
   position: fixed;         /* fixed to viewport */
-  top: 16vh;              /* distance from top */
-  left: 0px;              /* distance from left edge */
-  width: 300px;            /* total width to contain both components */
-  height: 83vh;            /* height of the sidebar */
+  top: 16vh;               
+left: 0px;              
+width: 300px;           
+height: calc(100vh - 16vh);
   display: flex;
   flex-direction: row;  /* stack children vertically or change to row if horizontal */
   gap: 3px;
@@ -94,7 +93,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 90%;
+  width: 100%;
   background: rgba(15, 15, 15, 0.95);
   border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 10px;
@@ -125,7 +124,7 @@
 
 /* 📗 Borrowed Books / Status Section */
 .student-status-panel {
-  width: 90%;
+  width: 100%;
   height: 62vh;
   background: rgba(15, 15, 15, 0.95);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -142,21 +141,35 @@
   width: 5px;
 }
 
-.library-content::-webkit-scrollbar {
+/* Scrollbar for all scrollable panels */
+.eh-card-container::-webkit-scrollbar,
+.library-content::-webkit-scrollbar,
+.student-status-panel::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Scrollbar thumb */
-.student-status-panel::-webkit-scrollbar-thumb,
-.library-content::-webkit-scrollbar-thumb {
-  background: gold;
+/* Scrollbar track (optional) */
+.eh-card-container::-webkit-scrollbar-track,
+.library-content::-webkit-scrollbar-track,
+.student-status-panel::-webkit-scrollbar-track {
+  background: #f1f1f1; /* light gray track */
   border-radius: 8px;
 }
 
-/* Scrollbar track (the container behind the thumb) */
-.student-status-panel::-webkit-scrollbar-track,
-.library-content::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0); 
+/* Scrollbar thumb */
+.eh-card-container::-webkit-scrollbar-thumb,
+.library-content::-webkit-scrollbar-thumb,
+.student-status-panel::-webkit-scrollbar-thumb {
+  background: gold;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+/* Hover effect for thumb */
+.eh-card-container::-webkit-scrollbar-thumb:hover,
+.library-content::-webkit-scrollbar-thumb:hover,
+.student-status-panel::-webkit-scrollbar-thumb:hover {
+  background: #ffdf00;
 }
 
 /* Optional: hide scrollbar background in Firefox */
@@ -228,8 +241,8 @@
 
 .status-and-message {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -239,6 +252,10 @@
   background: #f5f5f5;
   padding: 2px 8px;
   border-radius: 6px;
+}
+.status-timestamp {
+  font-size: 12px;
+  margin-top: 0;
 }
 
 /* Status colors */
@@ -250,6 +267,7 @@
 
 /* Content area */
 .library-content {
+  height: 100%;
   background: rgba(0, 0, 0, 0.4);       /* dark semi-transparent layer */
   backdrop-filter: blur(10px);          /* adjust blur strength */
   -webkit-backdrop-filter: blur(10px); 
@@ -467,20 +485,19 @@
   .fixed-side-bar {
     flex-direction: column;
     width: 100%;
-    margin-top: -8vh;
-    height: 20vh;
-    padding-top: 10px;
+    margin-top: -6vh;
+    height: 21vh;
   }
 
   .left-sidebar {
     width: 95%;
-    height: 15vh;
+    height: 20vh;
     padding: 5px 5px;
     background: none;
   }
 
   .search-bar {
-    width: 93%;
+    width: 100%;
     padding: 10px 10px;
   }
 
@@ -503,9 +520,8 @@
   }
 
  .library-content {
-    padding-right: 5px;        /* smaller padding for small screens */
-    gap: 12px;                 /* reduce gap between elements */
-    height: 70vh;
+    padding-right: 5px;        /* smaller padding for small screens */                /* reduce gap between elements */
+    height: 75vh;
   }
 
   .letter-heading {

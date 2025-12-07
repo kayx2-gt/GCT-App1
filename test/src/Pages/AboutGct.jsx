@@ -63,9 +63,8 @@ const AboutUs = () => {
 
 
   return (
-    <>
+    <div className="AboutGct">
       <Navbar />
-
       <div className="about-wrapper">
         {/* Hero Section */}
         <section className="about-hero">
@@ -169,7 +168,7 @@ const AboutUs = () => {
   <div className="fr-content-wrapper">
     <div className="fr-left">
       <div className="fr-item">
-        <img src="/Assets/icons/21st.webp" className="fr-i" />
+        <img src="/Assets/icons/21st.webp" alt="" className="fr-i" />
         <div>
           <h3>21st Century Education</h3>
           <p>Gain industry-driven knowledge and skills with modules from leading industry partners in Garcia College of Technology.</p>
@@ -177,7 +176,7 @@ const AboutUs = () => {
       </div>
 
       <div className="fr-item">
-        <img src="/Assets/icons/Learn.jpg" className="fr-i" />
+        <img src="/Assets/icons/Learn.jpg" alt=""  className="fr-i" />
         <div>
           <h3>Learn Anytime, Study Anywhere</h3>
           <p>Flexible blended learning system that adapts to your schedule and lifestyle.</p>
@@ -185,7 +184,7 @@ const AboutUs = () => {
       </div>
 
       <div className="fr-item">
-        <img src="/Assets/icons/Facilities.jpg" className="fr-i" />
+        <img src="/Assets/icons/Facilities.jpg" alt="" className="fr-i" />
         <div>
           <h3>Modern Training Facilities</h3>
           <p>Hands-on experience using updated tools, equipment, and real-world learning laboratories.</p>
@@ -193,7 +192,7 @@ const AboutUs = () => {
       </div>
 
       <div className="fr-item">
-        <img src="/Assets/icons/Work.jpg" className="fr-i" />
+        <img src="/Assets/icons/Work.jpg" alt="" className="fr-i" />
         <div>
           <h3>Enrollment to Employment</h3>
           <p>Programs designed to help students secure job opportunities right after graduation.</p>
@@ -209,7 +208,7 @@ const AboutUs = () => {
 
         {/* Team Section */}
 <section className="team-section">
-  <div className="container">
+  <div className="about-container">
     <h2 className="section-title">Talented Instructors</h2>
 
     <div className="team-grid">
@@ -296,7 +295,7 @@ const AboutUs = () => {
   </div>
 </footer>
 
-    </>
+    </div>
   );
 };
 

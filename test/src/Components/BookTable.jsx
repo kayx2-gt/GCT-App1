@@ -3,7 +3,6 @@ import API_URL from "../config";
 
 export default function BookTable({ books, handleDeleteBook }) {
   return (
-    <div className="table-wrapper">
       <table className="books-table">
         <thead>
           <tr>
@@ -61,6 +60,5 @@ export default function BookTable({ books, handleDeleteBook }) {
           )}
         </tbody>
       </table>
-    </div>
   );
 }

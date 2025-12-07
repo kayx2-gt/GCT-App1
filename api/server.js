@@ -46,6 +46,7 @@ db.run(
   `
   CREATE TABLE IF NOT EXISTS enrollments (
     id TEXT PRIMARY KEY,
+    student_id INTEGER,
     lastName TEXT,
     middleName TEXT,
     firstName TEXT,
@@ -76,6 +77,7 @@ db.run(
 // API: Save enrollment
 app.post("/api/enroll", (req, res) => {
   const {
+    student_id,
     lastName,
     middleName,
     firstName,
@@ -112,17 +114,18 @@ app.post("/api/enroll", (req, res) => {
 
   const id = uuidv4();
 
-  db.run(
+ db.run(
   `INSERT INTO enrollments (
-      id, lastName, middleName, firstName, dob, sex,
+      id, student_id, lastName, middleName, firstName, dob, sex,
       course, yearLevel, semester, email,
       guardianLastName, guardianMiddleName, guardianFirstName, guardianEmail, guardianRelation, guardianContact,
       paymentMode, paymentType, paymentNo, amount
   )
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `,
   [
       id,
+      student_id,
       lastName,
       middleName,
       firstName,
@@ -967,5 +970,29 @@ app.post("/login", async (req, res) => {
   // continue login (check password, issue token, etc.)
 });
 
+// Update student password
+app.put("/api/students/:id/password", (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
 
+  if (!password || password.length < 6) {
+    return res.status(400).json({ success: false, error: "Password too short" });
+  }
 
+  userdb.run(
+    "UPDATE students SET password = ? WHERE id = ?",
+    [password, id],
+    function(err) {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, error: "Database error" });
+      }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ success: false, error: "Student not found" });
+      }
+
+      res.json({ success: true });
+    }
+  );
+});
