@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+// Custom input for DatePicker
+const CustomDateInput = forwardRef(({ value, onChange, onClick }, ref) => (
+  <input
+    type="text"
+    value={value}
+    onChange={onChange}
+    onClick={onClick}
+    ref={ref}
+    placeholder="e.g. 2020, 15 A.D, Ancient Era"
+  />
+));
 
 export default function AddBookForm({
   form,
@@ -12,6 +24,18 @@ export default function AddBookForm({
   setForm,
   setIsDragging
 }) {
+  const [pickerDate, setPickerDate] = useState(null);
+
+  // Sync valid date from form to picker
+  useEffect(() => {
+    const parsed = Date.parse(form.pub_date);
+    if (!isNaN(parsed)) {
+      setPickerDate(new Date(parsed));
+    } else {
+      setPickerDate(null);
+    }
+  }, [form.pub_date]);
+
   return (
     <form onSubmit={handleAddBook} className="book-form">
       <div className="form-left">
@@ -32,15 +56,29 @@ export default function AddBookForm({
 
         <div className="form-group">
           <label>Publication Date:</label>
+
           <DatePicker
-            selected={form.pub_date ? new Date(form.pub_date) : null}
-            onChange={(date) =>
-              setForm({ ...form, pub_date: date.toISOString().slice(0, 10) })
-            }
+            selected={pickerDate}
+            onChange={(date) => {
+              if (date) {
+                setPickerDate(date);
+                setForm({ ...form, pub_date: date.toISOString().split("T")[0] });
+              } else {
+                // If cleared, set form value to empty string
+                setPickerDate(null);
+                setForm({ ...form, pub_date: "" });
+              }
+            }}
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
             placeholderText="Published Date"
+            customInput={
+              <CustomDateInput
+                value={form.pub_date || ""}
+                onChange={(e) => setForm({ ...form, pub_date: e.target.value })}
+              />
+            }
           />
         </div>
 
@@ -63,14 +101,8 @@ export default function AddBookForm({
 
         <div
           className={`dropzone ${isDragging ? "dragging" : ""}`}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-            setIsDragging(false);
-          }}
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
           onDrop={(e) => {
             e.preventDefault();
             setIsDragging(false);
@@ -79,11 +111,7 @@ export default function AddBookForm({
           }}
           onClick={() => document.getElementById("coverInput").click()}
         >
-          {preview ? (
-            <img src={preview} alt="Book Cover Preview" />
-          ) : (
-            <span>📂 Insert Img or Drag Img</span>
-          )}
+          {preview ? <img src={preview} alt="Book Cover Preview" /> : <span>📂 Insert Img or Drag Img</span>}
 
           <input
             id="coverInput"
@@ -94,9 +122,7 @@ export default function AddBookForm({
           />
         </div>
 
-        <button type="submit" className="btn">
-          Add Book
-        </button>
+        <button type="submit" className="btn">Add Book</button>
       </div>
     </form>
   );

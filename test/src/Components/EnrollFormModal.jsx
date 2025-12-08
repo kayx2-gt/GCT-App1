@@ -5,10 +5,9 @@ import "../Enrollment.css";
 import { generateEnrollmentPDF } from "../Components/ExportEnrollment";
 
 export default function EnrollFormModal({ isOpen, closeModal }) {
-        const [step, setStep] = useState(1);    
+      const [step, setStep] = useState(1);    
       const [showWarning, setShowWarning] = useState(false);
       // Step 1 - Enrollment states
-      const [id, setId] = useState("");
       const [lastName, setLastName] = useState("");
       const [middleName, setMiddleName] = useState("");
       const [firstName, setFirstName] = useState("");
@@ -33,9 +32,36 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
       const [amount, setAmount] = useState("");
       const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
       
-  
-      
-  
+      const resetForm = () => {
+    setStep(1);
+    setLastName("");
+    setMiddleName("");
+    setFirstName("");
+    setDob("");
+    setSex("");
+    setSelectedCourse("");
+    setSelectedYear("");
+    setSelectedSemester("");
+    setEmail("");
+
+    setPLastName("");
+    setPMiddleName("");
+    setPFirstName("");
+    setPEmail("");
+    setContact("");
+    setPRelation("");
+
+    setSelectedPayment("");
+    setPaymentNo("");
+    setAmount("");
+    setSelectedPaymentMode("");
+  };
+
+  // Reset form whenever modal opens
+  useEffect(() => {
+    if (isOpen) resetForm();
+  }, [isOpen]);
+
         useEffect(() => {
           if (selectedPayment === "1" && selectedCourse && selectedYear && selectedSemester) {
             const fees = tuitionFees[selectedCourse][selectedSemester][selectedYear];
@@ -54,9 +80,11 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
   
         const handleSubmit = async (e) => {
         e.preventDefault();
+        const stored = JSON.parse(localStorage.getItem("student"));
   
         const data = {
-          id,lastName, middleName, firstName, dob, sex,
+          student_id: stored?.id,
+          lastName, middleName, firstName, dob, sex,
           selectedCourse, selectedYear, selectedSemester, email,
           pLastName, pMiddleName, pFirstName, pEmail, pRelation, contact,
           selectedPaymentMode, selectedPayment, paymentNo, amount
@@ -75,7 +103,6 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
 
         const result = await response.json();
         alert(result.message);
-        setId(result.id);
 
         // =======================
         // 🔹 AUTO-DOWNLOAD PDF HERE
@@ -102,9 +129,10 @@ export default function EnrollFormModal({ isOpen, closeModal }) {
           paymentType: selectedPayment,
           paymentNo,
           amount,
+          student_id: stored?.id,
         });
 
-        // then close the form
+        resetForm();
         closeModal();
         } catch (error) {
           console.error(error);

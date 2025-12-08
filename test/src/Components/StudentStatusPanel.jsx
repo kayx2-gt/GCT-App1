@@ -6,7 +6,7 @@ export default function StudentStatusPanel({ feedbackMessage, studentRequests })
   const formatTimestamp = (ts) => {
     if (!ts) return "-";
     const date = new Date(ts);
-    return date.toLocaleString(); // e.g., "11/26/2025, 12:34:56 PM"
+    return date.toLocaleString();
   };
 
   // Helper to get status message / reason
@@ -55,7 +55,7 @@ export default function StudentStatusPanel({ feedbackMessage, studentRequests })
                       {req.status} {getStatusMessage(req) && `- ${getStatusMessage(req)}`}
                     </p>
                     {req.updated_at && (
-                      <p className="status-timestamp">Updated: {formatTimestamp(req.updated_at)}</p>
+                      <p className="status-timestamp">{formatTimestamp(req.updated_at)}</p>
                     )}
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function StudentStatusPanel({ feedbackMessage, studentRequests })
                       {req.status} {getStatusMessage(req) && `- ${getStatusMessage(req)}`}
                     </p>
                     {req.updated_at && (
-                      <p className="status-timestamp">Updated: {formatTimestamp(req.updated_at)}</p>
+                      <p className="status-timestamp">{formatTimestamp(req.updated_at)}</p>
                     )}
                   </div>
                 </div>

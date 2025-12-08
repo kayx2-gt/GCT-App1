@@ -826,6 +826,7 @@ h2, .section-title {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+
 /* ===== MOBILE (MAX-WIDTH: 600px) ===== */
 @media (max-width: 600px) {
 
@@ -998,3 +999,4 @@ h2, .section-title {
     margin-top: 25px;
   }
 }
+

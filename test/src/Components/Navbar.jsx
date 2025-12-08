@@ -6,23 +6,36 @@ import API_URL from "../config";
 import ContactModal from "./ContactModal";
 import EnrollFormModal from "./EnrollFormModal";
 import UserModal from "./UserLogin";
+import NavigationSidebar from "./NavigationSidebar";
 
 export default function Navbar() {
   const [isUserModal, setIsUserModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEnrollOpen, setIsEnrollOpen] = useState(false);
   const [userImage, setUserImage] = useState("/Assets/manager.png");
+  const [studentName, setStudentName] = useState("");
   const [isNavbarDown, setIsNavbarDown] = useState(false); 
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ toggle hamburger menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const startY = useRef(null);
 
   useEffect(() => {
     const loadUser = () => {
       const student = JSON.parse(localStorage.getItem("student"));
-      if (student?.photo) {
-        setUserImage(`${API_URL}/uploads/${student.photo}`);
+
+      if (student) {
+        // Set user name
+        setStudentName(student.fullname || student.username || "");
+
+        // Set user image
+        if (student.photo) {
+          setUserImage(`${API_URL}/uploads/${student.photo}`);
+        } else {
+          setUserImage("/Assets/manager.png");
+        }
       } else {
+        // No user found → fallback
+        setStudentName("");
         setUserImage("/Assets/manager.png");
       }
     };
@@ -31,6 +44,14 @@ export default function Navbar() {
     window.addEventListener("storage", loadUser);
     return () => window.removeEventListener("storage", loadUser);
   }, []);
+
+  useEffect(() => {
+  if (window.innerWidth <= 600) {
+    if (!isNavbarDown && isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }
+}, [isNavbarDown, isMenuOpen]);
 
   const toggleNavbar = () => {
     setIsNavbarDown(!isNavbarDown);
@@ -41,12 +62,15 @@ export default function Navbar() {
   };
 
   const handleTouchMove = (e) => {
+    if (!e.currentTarget.classList.contains("navbar")) return;
+
     if (startY.current === null) return;
+
     const currentY = e.touches[0].clientY;
     const diff = currentY - startY.current;
 
-    if (diff > 50) setIsNavbarDown(true);  
-    if (diff < -50) setIsNavbarDown(false); 
+    if (diff > 50) setIsNavbarDown(true);
+    if (diff < -50) setIsNavbarDown(false);
   };
 
   const handleTouchEnd = () => {
@@ -63,29 +87,21 @@ export default function Navbar() {
       >
         <div className="nav-links">
           <div id="admin">
-            <div className={`navigation-sidebar ${isMenuOpen ? "sidebar-open" : ""}`}>
-              <div className="sidebar-links">
-                <div><button onClick={() => alert("Open Settings")}>Settings</button></div>
-                <div><button onClick={() => alert("Open Enrollment History")}>Enrollment History</button></div>
-                <div><button onClick={() => alert("Open Book History")}>Book History</button></div>
-              </div>
-            </div>
-            <button
-            className={`hamburger-btn ${isMenuOpen ? "active" : ""}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <img
-              src="/Assets/menu-alt-svgrepo-com.svg"
-              alt="Menu"
-              className={`hamburger-icon ${isMenuOpen ? "rotate" : ""}`}
-            />
-          </button>
+            <NavigationSidebar 
+            isMenuOpen={isMenuOpen} 
+            setIsMenuOpen={setIsMenuOpen} 
+          />
             <button
               onClick={() => setIsUserModal(true)}
-              className="nav-link-like"
+              className="nav-link-like user-button"
             >
-              <img src={userImage} alt="User" />
+              <img src={userImage} alt="User" className="user-avatar" />
+
+              {studentName && (
+                <span className="user-name">
+                  {studentName}
+                </span>
+              )}
             </button>
           </div>
 
@@ -125,21 +141,26 @@ export default function Navbar() {
       </div>
 
       <div
-  className="arrow-container-navbar"
-  style={{
-    opacity: isMenuOpen ? 0 : 1,
-    pointerEvents: isMenuOpen ? "none" : "auto",
-    transition: "opacity 0.3s ease"
-  }}
->
-  <button
-    className={`down-arrow ${isNavbarDown ? "arrow-up" : ""}`}
-    onClick={toggleNavbar}
-  >
-    ▼
-  </button>
-</div>
+        className="arrow-container-navbar"
+        style={{
+          opacity: isMenuOpen ? 0 : 1,
+          pointerEvents: isMenuOpen ? "none" : "auto",
+          transition: "opacity 0.3s ease"
+        }}
+      >
 
+        <button
+          className={`down-arrow ${isNavbarDown ? "arrow-up" : ""}`}
+          onClick={!isMenuOpen ? toggleNavbar : undefined}
+          disabled={isMenuOpen}
+          style={{
+            pointerEvents: isMenuOpen ? "none" : "auto",
+            opacity: isMenuOpen ? 0 : 1
+          }}
+        >
+          ▼
+        </button>
+      </div>
 
       <UserModal isOpen={isUserModal} closeModal={() => setIsUserModal(false)} />
       <ContactModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />

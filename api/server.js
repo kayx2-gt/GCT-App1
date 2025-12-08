@@ -46,6 +46,7 @@ db.run(
   `
   CREATE TABLE IF NOT EXISTS enrollments (
     id TEXT PRIMARY KEY,
+    student_id INTEGER,
     lastName TEXT,
     middleName TEXT,
     firstName TEXT,
@@ -76,6 +77,7 @@ db.run(
 // API: Save enrollment
 app.post("/api/enroll", (req, res) => {
   const {
+    student_id,
     lastName,
     middleName,
     firstName,
@@ -112,17 +114,18 @@ app.post("/api/enroll", (req, res) => {
 
   const id = uuidv4();
 
-  db.run(
+ db.run(
   `INSERT INTO enrollments (
-      id, lastName, middleName, firstName, dob, sex,
+      id, student_id, lastName, middleName, firstName, dob, sex,
       course, yearLevel, semester, email,
       guardianLastName, guardianMiddleName, guardianFirstName, guardianEmail, guardianRelation, guardianContact,
       paymentMode, paymentType, paymentNo, amount
   )
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `,
   [
       id,
+      student_id,
       lastName,
       middleName,
       firstName,
@@ -779,6 +782,7 @@ userdb.run(
     libraryCardNo TEXT,
     studentNo TEXT,
     courseYear TEXT,
+    qrCode TEXT,
     photo TEXT,
     status TEXT NOT NULL DEFAULT 'active'
       CHECK (status IN ('active', 'inactive'))
@@ -901,32 +905,46 @@ const studentStorage = multer.diskStorage({
 const uploadStudentPhoto = multer({ storage: studentStorage });
 
 // add student
-app.post("/api/students/add", uploadStudentPhoto.single("photo"), (req, res) => {
+const QRCode = require('qrcode');
+
+app.post("/api/students/add", uploadStudentPhoto.single("photo"), async (req, res) => {
   const { username, password, fullname, libraryCardNo, studentNo, courseYear } = req.body;
   const photo = req.file ? req.file.filename : null;
 
+  // Create QR data as JSON string
+  const qrData = JSON.stringify({ libraryCardNo, studentNo });
+
   userdb.run(
-    `INSERT INTO students (username, password, fullname, libraryCardNo, studentNo, courseYear, photo)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [username, password, fullname, libraryCardNo, studentNo, courseYear, photo],
+    `INSERT INTO students (username, password, fullname, libraryCardNo, studentNo, courseYear, photo, qrCode)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [username, password, fullname, libraryCardNo, studentNo, courseYear, photo, qrData],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
 
-      // 🔹 Return full student object instead of just the ID
       res.json({
         success: true,
         id: this.lastID,
         username,
-        password,       // ⚠️ careful with exposing raw password in production
         fullname,
         libraryCardNo,
         studentNo,
         courseYear,
-        photo
+        photo,
+        qrCode: qrData
       });
     }
   );
 });
+
+app.get("/api/students/byQr/:libraryCardNo", (req, res) => {
+  const { libraryCardNo } = req.params;
+  userdb.get(`SELECT * FROM students WHERE libraryCardNo = ?`, [libraryCardNo], (err, student) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!student) return res.status(404).json({ error: "Student not found" });
+    res.json(student);
+  });
+});
+
 
 // ✅ Update student status (active/inactive)
 app.put("/api/students/:id/status", (req, res) => {
@@ -967,5 +985,29 @@ app.post("/login", async (req, res) => {
   // continue login (check password, issue token, etc.)
 });
 
+// Update student password
+app.put("/api/students/:id/password", (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
 
+  if (!password || password.length < 6) {
+    return res.status(400).json({ success: false, error: "Password too short" });
+  }
 
+  userdb.run(
+    "UPDATE students SET password = ? WHERE id = ?",
+    [password, id],
+    function(err) {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, error: "Database error" });
+      }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ success: false, error: "Student not found" });
+      }
+
+      res.json({ success: true });
+    }
+  );
+});

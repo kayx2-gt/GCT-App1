@@ -40,10 +40,18 @@ export default function StudentUser() {
   };
 
   const fetchStudents = async () => {
-    const res = await fetch(`${API_URL}/api/students`);
-    const data = await res.json();
-    setStudents(data);
-  };
+  const res = await fetch(`${API_URL}/api/students`);
+  const data = await res.json();
+
+  // Ensure libraryCardNo and studentNo are always strings
+  const fixedData = data.map(s => ({
+    ...s,
+    libraryCardNo: s.libraryCardNo ? s.libraryCardNo.toString() : "",
+    studentNo: s.studentNo ? s.studentNo.toString() : ""
+  }));
+
+  setStudents(fixedData);
+};
 
   useEffect(() => {
     if (isAdmin) fetchStudents();
@@ -74,39 +82,51 @@ export default function StudentUser() {
   };
 
   const handleAddStudent = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!form.photo) return alert("❌ Please upload a student photo before submitting.");
+  if (!form.photo) return alert("❌ Please upload a student photo before submitting.");
 
-    let autoLibrary =
-      form.libraryCardNo || (students.length ? Math.max(...students.map((s) => Number(s.libraryCardNo))) + 1 : 15301);
+  // Auto-generate numbers safely
+  const existingLibraryNumbers = students
+    .map(s => Number(s.libraryCardNo))
+    .filter(n => !isNaN(n));
+  const existingStudentNumbers = students
+    .map(s => Number(s.studentNo))
+    .filter(n => !isNaN(n));
 
-    let autoStudentNo =
-      form.studentNo || (students.length ? Math.max(...students.map((s) => Number(s.studentNo))) + 1 : 15201);
+  const autoLibrary =
+    form.libraryCardNo || (existingLibraryNumbers.length ? Math.max(...existingLibraryNumbers) + 1 : 15301);
 
-    const formData = new FormData();
-    Object.entries(form).forEach(([k, v]) => formData.append(k, v));
-    formData.append("libraryCardNo", autoLibrary);
-    formData.append("studentNo", autoStudentNo);
+  const autoStudentNo =
+    form.studentNo || (existingStudentNumbers.length ? Math.max(...existingStudentNumbers) + 1 : 15201);
 
-    const res = await fetch(`${API_URL}/api/students/add`, { method: "POST", body: formData });
-    await res.json();
+  // Prepare FormData
+  const formData = new FormData();
+  Object.entries(form).forEach(([key, value]) => {
+    if (key === "libraryCardNo") formData.append(key, autoLibrary.toString());
+    else if (key === "studentNo") formData.append(key, autoStudentNo.toString());
+    else formData.append(key, value);
+  });
 
-    if (res.ok) {
-      alert("Student added!");
-      fetchStudents();
-      setForm({
-        username: "",
-        password: "",
-        fullname: "",
-        libraryCardNo: "",
-        studentNo: "",
-        courseYear: "",
-        photo: null,
-      });
-      setPreview(null);
-    }
-  };
+  const res = await fetch(`${API_URL}/api/students/add`, { method: "POST", body: formData });
+  const data = await res.json();
+
+  if (res.ok && data.success) {
+    alert("Student added!");
+    fetchStudents();
+    setForm({
+      username: "",
+      password: "",
+      fullname: "",
+      libraryCardNo: "",
+      studentNo: "",
+      courseYear: "",
+      photo: null,
+    });
+    setPreview(null);
+  }
+};
+
 
   const toggleStatus = async (id, currentStatus) => {
     const newStatus = currentStatus === "active" ? "inactive" : "active";

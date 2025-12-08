@@ -5,7 +5,7 @@ export default function InstructorProfile({ instructor, onClose }) {
   if (!instructor) return null;
 
   return (
-    <div className="form-container show animate-fade-in">
+    <div className="about-form-container show animate-fade-in">
       <div className="profile-modal animate-scale-in">
         {/* Close Button */}
         <span className="close-btn" onClick={onClose}>
