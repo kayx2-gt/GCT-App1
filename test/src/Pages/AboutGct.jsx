@@ -63,7 +63,7 @@ const AboutUs = () => {
 
 
   return (
-    <div className="AboutGct">
+    <div className="AboutGct-wrapper">
       <Navbar />
       <div className="about-wrapper">
         {/* Hero Section */}

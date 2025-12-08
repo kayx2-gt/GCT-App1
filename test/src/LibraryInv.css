@@ -453,6 +453,170 @@ textarea {
   flex-direction: column;
 }
 
+/* ----------- COMMON ----------- */
+.borrow-panels {
+  border-radius: 12px;
+  justify-content: center;
+  align-self: center;
+  padding: 1rem;
+  background: goldenrod;
+  width: 90%;
+  max-height: 600px;
+  gap: 3rem;
+}
+
+.bh-wrapper,
+.br-wrapper {
+  overflow-y: auto;
+}
+
+.bh-title,
+.br-title {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+/* GRID */
+.bh-grid,
+.br-grid {
+  display: flex;
+  flex-direction: column-reverse;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: .7rem;
+}
+
+/* CARD */
+.bh-card,
+.br-card {
+  display: flex;
+  gap: 1rem;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.07);
+  transition: 0.25s ease;
+}
+
+.bh-card:hover,
+.br-card:hover {
+  transform: translateY(-4px);
+}
+
+/* COVER */
+.bh-cover img,
+.br-cover img {
+  width: 90px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #eee;
+}
+
+/* INFO */
+.bh-info,
+.br-info {
+  flex: 1;
+}
+
+.bh-book-title,
+.br-book-title {
+  font-size: 1.05rem;
+  margin: 0 0 0.2rem 0;
+}
+
+.bh-student,
+.br-student {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+/* STATUS */
+.bh-status,
+.br-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.bh-returned {
+  background: #e7f9ef;
+  color: #117c43;
+}
+
+.bh-denied {
+  background: #fde8e8;
+  color: #b42318;
+}
+
+.status-pending-approval {
+  background: #fff8e1;
+  color: #a67c00;
+}
+
+.status-claimable {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-borrowed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-not-approved {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* DATES */
+.bh-date,
+.br-date,
+.br-reason,
+.br-updated {
+  font-size: 0.74rem;
+  color: #555;
+  margin: 2px 0;
+}
+
+/* ACTIONS */
+.br-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+.br-btn {
+  border: none;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.br-btn.approve { background: #16a34a; color: white; }
+.br-btn.deny { background: #dc2626; color: white; }
+.br-btn.claim { background: #2563eb; color: white; }
+.br-btn.return { background: #7c3aed; color: white; }
+
+.br-btn:hover {
+  opacity: 0.9;
+  transform: scale(0.96);
+}
+
+/* EMPTY MESSAGE */
+.bh-empty,
+.br-empty {
+  text-align: center;
+  color: #888;
+  margin-top: 2rem;
+  font-style: italic;
+}
 
 
 @media only screen and (max-width: 400px){

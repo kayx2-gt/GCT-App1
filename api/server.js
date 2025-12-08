@@ -782,6 +782,7 @@ userdb.run(
     libraryCardNo TEXT,
     studentNo TEXT,
     courseYear TEXT,
+    qrCode TEXT,
     photo TEXT,
     status TEXT NOT NULL DEFAULT 'active'
       CHECK (status IN ('active', 'inactive'))
@@ -904,32 +905,46 @@ const studentStorage = multer.diskStorage({
 const uploadStudentPhoto = multer({ storage: studentStorage });
 
 // add student
-app.post("/api/students/add", uploadStudentPhoto.single("photo"), (req, res) => {
+const QRCode = require('qrcode');
+
+app.post("/api/students/add", uploadStudentPhoto.single("photo"), async (req, res) => {
   const { username, password, fullname, libraryCardNo, studentNo, courseYear } = req.body;
   const photo = req.file ? req.file.filename : null;
 
+  // Create QR data as JSON string
+  const qrData = JSON.stringify({ libraryCardNo, studentNo });
+
   userdb.run(
-    `INSERT INTO students (username, password, fullname, libraryCardNo, studentNo, courseYear, photo)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [username, password, fullname, libraryCardNo, studentNo, courseYear, photo],
+    `INSERT INTO students (username, password, fullname, libraryCardNo, studentNo, courseYear, photo, qrCode)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [username, password, fullname, libraryCardNo, studentNo, courseYear, photo, qrData],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
 
-      // 🔹 Return full student object instead of just the ID
       res.json({
         success: true,
         id: this.lastID,
         username,
-        password,       // ⚠️ careful with exposing raw password in production
         fullname,
         libraryCardNo,
         studentNo,
         courseYear,
-        photo
+        photo,
+        qrCode: qrData
       });
     }
   );
 });
+
+app.get("/api/students/byQr/:libraryCardNo", (req, res) => {
+  const { libraryCardNo } = req.params;
+  userdb.get(`SELECT * FROM students WHERE libraryCardNo = ?`, [libraryCardNo], (err, student) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!student) return res.status(404).json({ error: "Student not found" });
+    res.json(student);
+  });
+});
+
 
 // ✅ Update student status (active/inactive)
 app.put("/api/students/:id/status", (req, res) => {

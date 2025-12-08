@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import QRCode from "qrcode";
 import API_URL from "../config";
 import "../Navbar.css";
 
@@ -9,6 +10,7 @@ export default function Settings() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
 
   useEffect(() => {
     const savedStudent = JSON.parse(localStorage.getItem("student"));
@@ -16,9 +18,28 @@ export default function Settings() {
 
     fetch(`${API_URL}/api/students/${savedStudent.id}`)
       .then((res) => res.json())
-      .then((data) => setStudent(data))
+      .then((data) => {
+        setStudent(data);
+        generateQRCode(data); // Generate QR when student data is fetched
+      })
       .catch((err) => console.error("Error fetching user:", err));
   }, []);
+
+  const generateQRCode = async (studentData) => {
+    try {
+      // Use unique student info for QR, e.g., id or studentNo
+      const qrString = JSON.stringify({
+        id: studentData.id,
+        studentNo: studentData.studentNo,
+        libraryCardNo: studentData.libraryCardNo,
+      });
+
+      const url = await QRCode.toDataURL(qrString);
+      setQrCodeDataUrl(url);
+    } catch (err) {
+      console.error("Error generating QR code:", err);
+    }
+  };
 
   if (!student) return <div className="settings-loading">Loading...</div>;
 
@@ -127,6 +148,14 @@ export default function Settings() {
           </div>
           {message && <p className="settings-message">{message}</p>}
         </div>
+
+        {/* QR CODE ROW */}
+        {qrCodeDataUrl && (
+          <div className="settings-row qr-code-row">
+            <div className="settings-label">Your QR Code</div>
+            <img src={qrCodeDataUrl} alt="Student QR Code" className="student-qr-code" />
+          </div>
+        )}
       </div>
     </div>
   );

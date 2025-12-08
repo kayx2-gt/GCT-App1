@@ -1,10 +1,10 @@
-
 import Navbar from "../Components/Navbar";
 import React, { useEffect, useState, useRef } from "react";
 import "../Library.css";
 import API_URL from "../config";
 import BookRow from "../Components/BookRow"; 
 import StudentStatusPanel from "../Components/StudentStatusPanel";
+import LibraryPopup from "../Components/LibraryPopup";   // <-- ADD THIS
 
 export default function Library() {
   const [books, setBooks] = useState([]);
@@ -13,7 +13,8 @@ export default function Library() {
   const [expanded, setExpanded] = useState(null);
   const [user, setUser] = useState(null);
   const [studentRequests, setStudentRequests] = useState([]);
-  const [feedbackMessage, setFeedbackMessage] = useState(""); 
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [selectedBook, setSelectedBook] = useState(null);   // <-- ADD THIS
 
   const libraryContentRef = useRef(null);
   const scrollRefs = useRef({});
@@ -42,8 +43,13 @@ export default function Library() {
       .catch((err) => console.error("Error fetching books:", err));
   }, []);
 
-  // 🟢 Handle borrow
-  const handleBorrow = async (id) => {
+  // Open popup from BookRow
+  const handleOpenPopup = (book) => {
+    setSelectedBook(book);
+  };
+
+  // Borrow inside popup
+  const handleBorrowRequest = async (id) => {
     if (!user) {
       setFeedbackMessage("⚠️ Please log in to request a borrow.");
       return;
@@ -56,6 +62,7 @@ export default function Library() {
       });
       const data = await res.json();
       setFeedbackMessage(data.message || "Borrow request sent!");
+
       if (data.success && user?.id) {
         const updatedRes = await fetch(`${API_URL}/api/borrow/history/${user.id}`);
         const updatedData = await updatedRes.json();
@@ -68,7 +75,7 @@ export default function Library() {
   };
 
   const handleAlphabetClick = (e, letter) => {
-    e.preventDefault(); // prevent default jump
+    e.preventDefault();
     const target = document.getElementById(`letter-${letter}`);
     if (target && libraryContentRef.current) {
       libraryContentRef.current.scrollTo({
@@ -102,20 +109,15 @@ export default function Library() {
     smoothScroll(row, targetScroll, 400);
   };
 
-  // Clean and normalize the query
   const normalizedQuery = searchQuery.trim().toLowerCase();
-
-  // 1️⃣ Sort books alphabetically by title
   const sortedBooks = [...books].sort((a, b) => a.title.localeCompare(b.title));
 
-  // 2️⃣ Filter based on the search field and query
   const filteredBooks = sortedBooks.filter((book) => {
-    if (!normalizedQuery) return true; // show all when search is empty
+    if (!normalizedQuery) return true;
     const value = (book[searchField] || "").toString().toLowerCase();
     return value.includes(normalizedQuery);
   });
 
-  // 3️⃣ Group filtered books alphabetically by their title’s first letter
   const groupedBooks = filteredBooks.reduce((acc, book) => {
     const firstLetter = book.title?.[0]?.toUpperCase() || "#";
     if (!acc[firstLetter]) acc[firstLetter] = [];
@@ -144,7 +146,6 @@ export default function Library() {
             />
           </div>
 
-          {/* Student requests panel (unchanged) */}
           <div className="student-status-wrapper">
             <StudentStatusPanel
               feedbackMessage={feedbackMessage}
@@ -153,17 +154,20 @@ export default function Library() {
           </div>
         </div>
 
-        {/* Alphabet guide */}
         <div className="alphabet-guide">
           {Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").map(letter => (
-            <a key={letter} href={`#letter-${letter}`} className="alphabet-link" onClick={(e) => handleAlphabetClick(e, letter)}>
+            <a
+              key={letter}
+              href={`#letter-${letter}`}
+              className="alphabet-link"
+              onClick={(e) => handleAlphabetClick(e, letter)}
+            >
               {letter}
             </a>
           ))}
         </div>
       </div>
 
-      {/* Library content */}
       <div className="library-container">
         <div className="library-content" ref={libraryContentRef}>
           {Object.keys(groupedBooks).length > 0 ? (
@@ -171,19 +175,30 @@ export default function Library() {
               <div key={letter} id={`letter-${letter}`} className="letter-section">
                 <h2 className="letter-heading">{letter}</h2>
                 <BookRow
-                  letter={letter}
-                  books={groupedBooks[letter]}
-                  scrollRow={scrollRow}
-                  scrollRefs={scrollRefs}
-                  expanded={expanded}
-                  setExpanded={setExpanded}
-                  handleBorrow={handleBorrow}
-                />
+  letter={letter}
+  books={groupedBooks[letter]}
+  scrollRow={scrollRow}
+  scrollRefs={scrollRefs}
+  expanded={expanded}
+  setExpanded={setExpanded}
+  handleBorrow={handleBorrowRequest} // actual borrow action (API)
+  openPopup={handleOpenPopup}        // open popup when card clicked
+/>
               </div>
             ))
           ) : <p className="no-books">No books found.</p>}
         </div>
       </div>
+
+      {/* ✅ POPUP IS INSERTED HERE */}
+      {selectedBook && (
+        <LibraryPopup
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onBorrow={handleBorrowRequest}
+        />
+      )}
+
     </div>
   );
 }

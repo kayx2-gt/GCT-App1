@@ -6,6 +6,7 @@ import AboutGct from './Pages/AboutGct.jsx';
 import Courses from './Pages/Courses.jsx';
 import Library from './Pages/Library.jsx';
 import History from './Pages/History.jsx';
+import StudentScanner from './Components/StudentScanner.jsx';
 
 import Admin from './Pages/AdminPannel.jsx' ;
 import BookInventory from './Pages/LibraryInventory.jsx';
@@ -62,6 +63,7 @@ function App() {
               <Route path='/Courses' element={<Courses />} />
               <Route path='/Library' element={<Library />} />
               <Route path='/History' element={<History />} />
+              <Route path='/QRscann' element={<StudentScanner />} />
               <Route
                 path='/Admin'
                 element={
