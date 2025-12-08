@@ -1,8 +1,9 @@
+
 import React, { useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import API_URL from "../config";
 
-export default function BookRow({ letter, books, expanded, setExpanded, handleBorrow }) {
+export default function BookRow({ letter, books, expanded, setExpanded, handleBorrow, openPopup }) {
   const rowRef = useRef(null);
 
   // Function to scroll smoothly left or right
@@ -37,7 +38,11 @@ export default function BookRow({ letter, books, expanded, setExpanded, handleBo
 
       <div {...swipeHandlers} className="book-row-scroll" ref={rowRef}>
         {books.map((row) => (
-          <div className="book-card" key={row.id}>
+          <div
+  className="book-card"
+  key={row.id}
+  onClick={() => openPopup(row)}
+>
             <div className="book-cover-container">
               {row.cover_image ? (
                 <img
@@ -73,14 +78,12 @@ export default function BookRow({ letter, books, expanded, setExpanded, handleBo
                 : "Out of Stock"}
             </p>
             <button
-              onClick={() => handleBorrow(row.id)}
-              disabled={row.quantity_in_stock <= 0}
-              className={`borrow-btn ${
-                row.quantity_in_stock > 0 ? "enabled" : "disabled"
-              }`}
-            >
-              Borrow
-            </button>
+  onClick={(e) => { e.stopPropagation(); handleBorrow(row.id); }}
+  disabled={row.quantity_in_stock <= 0}
+  className={`borrow-btn ${row.quantity_in_stock > 0 ? "enabled" : "disabled"}`}
+>
+  Borrow
+</button>
           </div>
         ))}
       </div>
