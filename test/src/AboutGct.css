@@ -825,3 +825,176 @@ h2, .section-title {
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* ===== MOBILE (MAX-WIDTH: 600px) ===== */
+@media (max-width: 600px) {
+
+  /* HERO */
+  .about-hero {
+    height: 420px;
+  }
+
+  .about-hero-content h1 {
+    font-size: 32px;
+  }
+
+  .about-hero-content p {
+    font-size: 16px;
+    margin-top: 15px;
+  }
+
+  .enroll-button {
+    width: 150px;
+    padding: 14px 28px;
+    font-size: 14px;
+  }
+
+  /* GENERAL TITLES */
+  h2, .section-title, .section-title2, .gct-history-title {
+    font-size: 30px;
+  }
+
+  .section-title::after,
+  .section-title2::after,
+  .gct-history-title::after {
+    width: 140px;
+  }
+
+  /* HISTORY SECTION */
+  .gct-history-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .gct-history-content,
+  .gct-history-image {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .gct-history-image img {
+    height: 300px;
+  }
+
+  /* MISSION / VISION / VALUES */
+  .pyramid-row {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .mission,
+  .vision,
+  .values {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .pyramid-card {
+    padding: 18px 20px;
+  }
+
+  .pyramid-card h3 {
+    font-size: 24px;
+  }
+
+  /* FUTURE READY */
+  .fr-content-wrapper {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .fr-left,
+  .fr-right {
+    width: 100%;
+  }
+
+  .fr-item {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .fr-item h3 {
+    font-size: 18px;
+  }
+
+  .fr-item p {
+    font-size: 14px;
+  }
+
+  .fr-i {
+    width: 50px;
+    height: 50px;
+  }
+
+  .fr-right img {
+    height: 260px;
+    width: 100%;
+  }
+
+  /* TEAM SECTION */
+  .team-section {
+    padding: 50px 20px;
+  }
+
+  .team-card {
+    padding: 22px;
+  }
+
+  .team-photo {
+    width: 110px;
+    height: 110px;
+  }
+
+  /* MODAL */
+  .profile-modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .profile-name {
+    font-size: 1.9rem;
+  }
+
+  .profile-role {
+    font-size: 1.2rem;
+  }
+
+  .detail-item strong {
+    width: 100px;
+    font-size: 1rem;
+  }
+
+  /* FOOTER GRID → SINGLE COLUMN */
+  .footer-b-container {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .footer-b-brand {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .footer-b-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .footer-b-heading::after {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* LINKS & TEXT SIZE */
+  .footer-b-block ul li a,
+  .footer-b-block p a {
+    font-size: 16px;
+  }
+
+  .footer-b-bottom {
+    font-size: 12px;
+    margin-top: 25px;
+  }
+}

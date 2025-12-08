@@ -340,3 +340,114 @@
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* ===== MOBILE (MAX-WIDTH: 600px) ===== */
+@media (max-width: 600px) {
+
+  /* PAGE CONTAINER */
+  .history-page-container {
+    padding-top: 100px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 60px;
+    gap: 40px;
+  }
+
+  /* PAGE TITLE */
+  .history-page-title {
+    font-size: 26px;
+    margin: 10px auto 35px auto;
+    margin-top: 60px;
+  }
+
+  /* TOP ROW: STACK */
+  .history-top-row {
+    flex-direction: column;
+    gap: 25px;
+    text-align: center;
+  }
+
+  /* TEXT COLUMN */
+  .history-text-column {
+    flex: 0 0 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .history-text-column h2 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .history-text-column h2::after {
+    width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .history-text-column p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* IMAGE COLUMN */
+  .history-image-column {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* center image */
+  }
+
+  .history-image-column img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  /* FULLWIDTH PARAGRAPHS */
+  .history-fullwidth-text {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .history-fullwidth-text p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* FOOTER GRID → SINGLE COLUMN */
+  .footer-b-container {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .footer-b-brand {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .footer-b-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .footer-b-heading::after {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* LINKS & TEXT SIZE */
+  .footer-b-block ul li a,
+  .footer-b-block p a {
+    font-size: 16px;
+  }
+
+  .footer-b-bottom {
+    font-size: 12px;
+    margin-top: 25px;
+  }
+}
