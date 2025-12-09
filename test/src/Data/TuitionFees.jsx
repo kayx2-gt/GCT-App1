@@ -99,7 +99,7 @@ const tuitionFees = {
         },
     },
 
-    "BS in Hotel Management": {
+    "BS in Hospitality Management": {
         images: [
            "CourseIcons/HOSPTALITY.jpg"
         ],
