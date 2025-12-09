@@ -1,9 +1,7 @@
 const tuitionFees = {
     "BS in Civil Engineering": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+           "CourseIcons/CIVILENG.jpg"
         ],
         bg: "Assets/CVIL.jpg",
         description: "The BS in Civil Engineering program prepares students to become competent professionals in the planning, design, construction, and maintenance of infrastructure and public works. The curriculum combines rigorous technical training in structural, environmental, geotechnical, and transportation engineering with practical problem-solving, project management, and safety standards. Graduates are equipped to contribute to sustainable development, implement innovative engineering solutions, and meet the growing demands of the construction and infrastructure industry.",
@@ -23,9 +21,7 @@ const tuitionFees = {
 
     "BS in Mechanical Engineering": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+           "CourseIcons/MENGINEER.jpg"
         ],
         bg: "Assets/me.jpg",
         description: "Mechanical Engineering is a profession that concerns itself with mechanical design, energy conversion, fuel and combustion technologies, heating, ventilating, and air conditioning (HVAC), refrigeration systems, fire-protection systems, heat transfer, materials, noise control and acoustics, manufacturing processes, rail transportation, automatic control, product safety and reliability, solar energy, and technological impacts to society.",
@@ -45,9 +41,7 @@ const tuitionFees = {
 
     "BS in Electrical Engineering": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "CourseIcons/ELECTRICAL.jpg"
         ],
         bg: "Assets/EE.jpg",
         description: "Within four years of graduation, holders of the degree of Bachelor of Science in Electrical Engineering from the University of Santo Tomas shall be engaged, either locally or abroad, in the following areas of practice: Power Systems Planning, Power System Operation and Maintenance, Electrical System Design and Inspection, Technopreneurship, Engineering Education and Research, Instrumentation and Control Systems, Construction and Project Management, Software Development, Electricity Market, Electrical Engineering Safety, Energy Management, and Emerging Technology. Furthermore, they shall be expected to embody the following traits: contemplative, creative, and critical thinking; an exemplary work ethic; and a commitment to improving society and pursuing lifelong learning. ",
@@ -67,9 +61,7 @@ const tuitionFees = {
 
     "BS in Accountancy": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "CourseIcons/ACCOUNTANT.jpg"
         ],
         bg: "Assets/ACC.jpg",
         description: "A Bachelor of Science in Accountancy (BSA) is a four-year undergraduate degree program that provides students with the knowledge and skills to become professional accountants. The curriculum includes subjects like financial accounting, taxation, auditing, and management accounting, and is designed to prepare graduates to take the Certified Public Accountant (CPA) board exam.",
@@ -89,9 +81,7 @@ const tuitionFees = {
 
     "BS in Business Administration": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "CourseIcons/BSAD.jpg"
         ],
         bg: "/Assets/BA.jpg",
         description: "The Bachelor of Science in Business Administration program offers a wide range of specialized majors, namely Business Economics, Financial Management, Human Resource Management, and Marketing Management. The program focuses on the interrelationship of the different functional areas of business. It equip students with technical and practical knowledge in making informed business decision. ",
@@ -111,9 +101,7 @@ const tuitionFees = {
 
     "BS in Hotel Management": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+           "CourseIcons/HOSPTALITY.jpg"
         ],
         bg: "/Assets/HM.jpg",
         description: "BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT prepares graduates to become global leaders and managers for major hospitality industry segments by developing strategies that can be applied at the workplace from running world-class front to back of the house operations, building guest relations, managing financial transactions, creating marketing opportunities to cultivating business ventures. np",
@@ -133,9 +121,7 @@ const tuitionFees = {
 
     "BS in Information Technology": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "CourseIcons/ITICON.jpg"
         ],
         bg: "/Assets/ITE.jpg",
         description: "Information Technology is the study of utilization of both hardware and software technologies to provide computing solutions that address the needs of various users and organizations. The Information Technology (IT) program encompasses a wide range of knowledge areas – from organizational information systems to systems infrastructure to prepare graduates that have the capability to select, apply, configure, integrate, deploy, and administer computing technology to meet user requirements over a large spectrum of contexts.",
@@ -155,9 +141,7 @@ const tuitionFees = {
 
     "BS in Computer Science": {
         images: [
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png"
+            "CourseIcons/BSCS.jpg"
         ],
         bg: "/Assets/science.jpg",
         description: "Bachelor of Science in Computer Science (BSCS) is a four-year program that includes the study of computing concepts and theories, algorithmic foundations, and new developments in computing. The program prepares its students to design and create algorithmically complex software and develop new and effective algorithms for solving computing problems.",
@@ -177,9 +161,7 @@ const tuitionFees = {
 
     "BS in Office Administration": {
         images: [
-            "/Assets/banner-bsoa.jpg",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
-            "/Assets/82713938-b597-43aa-a4c4-d982e41ed581.png",
+            "CourseIcons/OFADD.jpg"
             
         ],
         bg: "/Assets/Office.png",

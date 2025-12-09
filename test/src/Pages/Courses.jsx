@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import tuitionFees from "../Data/TuitionFees";
+import EnrollFormModal from "../Components/EnrollFormModal"; // Add this import
 import "../Courses.css";
 
 export default function Courses() {
@@ -10,6 +11,10 @@ export default function Courses() {
   const [activeYear, setActiveYear] = useState(
     Object.fromEntries(courseNames.map((name) => [name, 1]))
   );
+
+  // Add state for modal control
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCourseForModal, setSelectedCourseForModal] = useState(null);
 
   const nextYear = (name) => {
     setActiveYear((prev) => {
@@ -56,10 +61,16 @@ export default function Courses() {
               <div className="course-left">
                 <div className="collage">
                   <img src={bigImg} className="big-img" alt="" />
-
-                  s
                 </div>
-                <button className="enroll-btn">Enroll Now</button>
+                <button 
+                  className="enroll-btn" 
+                  onClick={() => {
+                    setSelectedCourseForModal({ course: name, year: year });
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Enroll Now
+                </button>
               </div>
 
               {/* RIGHT SIDE */}
@@ -85,6 +96,15 @@ export default function Courses() {
           );
         })}
       </div>
+
+      {/* Add the modal here */}
+      <EnrollFormModal 
+        isOpen={isModalOpen} 
+        closeModal={() => setIsModalOpen(false)} 
+        initialCourse={selectedCourseForModal?.course} 
+        initialYear={selectedCourseForModal?.year} 
+        initialSemester="firstSemester" // Default to first semester; adjust if needed
+      />
     </div>
   );
 }
