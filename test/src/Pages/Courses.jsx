@@ -39,7 +39,7 @@ export default function Courses() {
           const firstSem = course.firstSemester[year].total;
           const secondSem = course.secondSemester[year].total;
           const yearlyTotal = firstSem + secondSem;
-          const [bigImg, small1, small2] = course.images;
+          const [bigImg] = course.images;
 
           return (
             <div
@@ -57,10 +57,7 @@ export default function Courses() {
                 <div className="collage">
                   <img src={bigImg} className="big-img" alt="" />
 
-                  <div className="small-imgs">
-                    <img src={small1} className="small-img" alt="" />
-                    <img src={small2} className="small-img" alt="" />
-                  </div>
+                  s
                 </div>
                 <button className="enroll-btn">Enroll Now</button>
               </div>
